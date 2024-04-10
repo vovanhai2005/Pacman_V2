@@ -1,14 +1,15 @@
-#include <Game.h>
+#include "Game.h"
+#include "../Object/Texture.h"
 
-int main(int argc , char* argc[])
+int main(int argc, char *args[])
 {
-	Window* window = new Window();
+	Game *game = new Game();
 
-	window -> initSDL();
+	game-> initSDL();
 
-	window -> runGame();
+	game -> runGame();
 
-	window -> quitSDL();
+	game-> quitSDL();
 
-	return 0;
+	return 1;
 }

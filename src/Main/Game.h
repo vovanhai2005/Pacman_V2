@@ -5,33 +5,36 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <string>
+#include <vector>
+#include "../Manage/LogStat.h"
+#include "../Object/Texture.h"
 
 class Game
 {
+    private:
+        SDL_Window* window = nullptr;
+        SDL_Renderer* renderer = nullptr;
+
+        LogStatus* Console = new LogStatus("Window");
+        std::vector<std::string> highScore;
+        bool Running = false;
+        bool gameRunning = false;
     public:
-        static const int SCREEN_HE  IGHT = 882;
-        static const int SCREEN_WIDTH = 496;
-        const string WINDOW_TITLE = "Pacman";
-        vector<string> startMenuButton = {"New Game" , "How to play" , "High Score" , "Sound: ON" , "Exit"};
+        static const int SCREEN_WIDTH = 882;
+        static const int SCREEN_HEIGHT = 496;
+        const std::string WINDOW_TITLE = "Pacman";
+        std::vector<std::string> startMenuButtonText = {"New Game", "How to Play", "High Scores", "Sound: ON", "Exit"};
 
         Game();
+
         ~Game();
 
         void initSDL();
 
+        void quitSDL();
+
         void runGame();
 
-        void quitSDL();
-    private:
-        SDL_Window* window = NULL;
-        SDL_Renderer* renderer = NULL;
-        Menu* startMenu = nullptr;
-        PlayStateManager* playState = nullptr;
-
-        LogStatus* Console = new LogStatus("Window");
-        vector<string> highScore;
-        bool Running = false;
-        bool runningMenu = false;
-}
-
+};
 #endif

@@ -5,11 +5,16 @@
 
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
-class LogStat 
+class LogStatus
 {
+    private:
+        std::string area = "";
     public:
-        LogStatus(){}
+        // LogStatus(){
+
+        // }
 
         LogStatus(std::string area){
             this -> area = area;
@@ -18,4 +23,6 @@ class LogStat
         void Status(const std::string stat){
             std::cout << area << "'s status: " << stat << '\n';
         }
-}   
+};
+
+#endif
