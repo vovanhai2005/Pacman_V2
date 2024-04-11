@@ -46,6 +46,8 @@ class Map{
         
         bool isWall(int x , int y);
 
+        bool isWallBehind(std::pair<int , int> cross , int newDir);
+
         int coinCollected(int x , int y);
 
         bool isDirChange(int x , int y , int dir);
@@ -57,5 +59,7 @@ class Map{
         void findNearestCross();
 
         void distCalc();
+
+        void reset();
 };
 #endif

@@ -6,7 +6,6 @@
 Pacman::Pacman() : Object(13 , 23){
     while(!Dir.empty()) Dir.pop();
     while(!Unique.empty()) Unique.pop();
-    std::cout << "haha";
 }
 
 bool Pacman::emptyDir(){

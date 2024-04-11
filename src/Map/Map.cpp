@@ -54,6 +54,14 @@ bool Map::isWall(int x , int y) {
     else return true;
 }
 
+bool Map::isWallBehind(II cross , int newDir){
+    if (newDir == UP) cross.second -= 1;
+    else if (newDir == DOWN) cross.second += 1;
+    else if (newDir == RIGHT) cross.first += 1;
+    else cross.first -= 1;
+    return isWall(cross.fi , cross.se);
+}
+
 int Map::coinCollected(int x, int y)
 {
     if (isSatis(totalTile[x][y]) && totalTile[x][y] != 30)
@@ -239,4 +247,10 @@ void Map::distCalc()
         }
     }
     // std::cout << "Render map successfully" << std::endl;
+}
+
+void Map::reset(){
+    for (int i = 0 ; i < MAP_HEIGHT ; ++i)
+        for (int j = 0 ; j < MAP_WIDTH ; ++j)
+            totalTile[i][j] = createdMap[i][j];
 }

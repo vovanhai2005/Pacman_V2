@@ -14,6 +14,7 @@ Ghost::Ghost(int tileX , int tileY , bool Lock) : Object(tileX , tileY) {
     else ghostDir = RIGHT;
 }
 
+
 int Ghost::getNextTileX(){
     return nextTileX;
 }

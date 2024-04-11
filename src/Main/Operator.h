@@ -10,22 +10,28 @@
 #include "../Object/Ghost.h"
 #include "../Object/Item.h"
 #include "../Object/Texture.h"
+#include "../Manage/LogStat.h"
 
 class Operator {
     private:
         Map* map;
-        Pacman* pacman;
-        Ghost* blinky;
-        Ghost* pinky;
-        Ghost* inky;
-        Ghost* clyde;
+        Pacman* pacman = NULL;
+        Ghost* blinky = NULL;
+        Ghost* pinky = NULL;
+        Ghost* inky = NULL;
+        Ghost* clyde = NULL;
         Item* apple;
         Texture* objectTexture;
         SDL_Texture* nextLevel;
         SDL_Texture* ready;
 
-
     public:
+
+        static const int UP = 0;
+        static const int DOWN = 1;
+        static const int RIGHT = 2;
+        static const int LEFT = 3;
+
         Operator();
 
         ~Operator() {
@@ -53,7 +59,13 @@ class Operator {
 
         void init(SDL_Renderer* &renderer);
 
-        void newGame();
+        void renderGhost(SDL_Renderer* &renderer , Ghost* &ghost , int ghostType);
+
+        void makingEvent(SDL_Event &e);
+
+        void render(SDL_Renderer* &renderer);
+
+        void gameOperate();
         
 };
 #endif

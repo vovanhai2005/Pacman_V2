@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "Game.h"
-#include "../Map/Map.h"
+#include "Operator.h"
 
 Game::Game()
 {
@@ -66,31 +66,24 @@ void Game::initSDL()
 void Game::runGame()
 {
     SDL_Event e;
+    Operator* ope = new Operator();
     while (gameRunning)
     {
         while (SDL_PollEvent(&e) != 0)
         {
             if (e.type == SDL_QUIT)
                 gameRunning = false;
+            else {
+                ope -> makingEvent(e);
+            }
         }
         // Clear renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        Map* map = new Map();
-        Texture *objectTexture = new Texture();
-        objectTexture->loadImageToTileTexture(renderer);
-        objectTexture->loadCharacterTexture(renderer);
-
-        SDL_Rect dsRect;
-        for (int i = 0; i < 28; ++i)
-        {
-            for (int j = 0; j < 31; ++j)
-            {
-                dsRect = {i * 16 + 217, j * 16 , 16 , 16};
-                objectTexture -> renderTileTexture(renderer , map -> getID(j , i) , &dsRect);
-            }
-        }
+        ope -> init(renderer);
+        ope -> gameOperate();
+        ope -> render(renderer);
 
         SDL_RenderPresent(renderer);
     }

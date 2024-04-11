@@ -206,33 +206,33 @@ void Texture::renderPacmanTexture(SDL_Renderer *&renderer, int posX, int posY, i
 void Texture::renderGhostTexture(SDL_Renderer *&renderer, int posX, int posY, int ghostType, int stat)
 {
     ghostFrame[ghostType]++;
-    SDL_Rect srcRect, dsRect;
-    dsRect = {posX + 210, posY - 7, 30, 30};
+    // std::cout << ghostFrame[0] << std::endl;
+    SDL_Rect srcRect , dsRect;
+    dsRect = {posX + 210 , posY - 7 , 30 , 30};
 
     if (ghostFrame[ghostType] / 7 > 1)
         ghostFrame[ghostType] = 0;
 
-    switch (stat)
-    {
-    case UP:
-        srcRect = ghost[ghostType][UP][ghostFrame[ghostType] / 7];
-        break;
-    case DOWN:
-        srcRect = ghost[ghostType][DOWN][ghostFrame[ghostType] / 7];
-        break;
-    case LEFT:
-        srcRect = ghost[ghostType][LEFT][ghostFrame[ghostType] / 7];
-        break;
-    case RIGHT:
-        srcRect = ghost[ghostType][RIGHT][ghostFrame[ghostType] / 7];
-        break;
-    case BLUE_SCARED:
-        srcRect = ghost[ghostType][BLUE_SCARED][ghostFrame[ghostType] / 7];
-        break;
-    case WHITE_SCARED:
-        srcRect = ghost[ghostType][((ghostFrame[ghostType] / 7 < 1) ? BLUE_SCARED : WHITE_SCARED)][ghostFrame[ghostType] / 7];
-        break;
-    }
+    switch (stat){
+        case UP:
+            srcRect = ghost[ghostType][UP][ghostFrame[ghostType] / 7];
+            break;
+        case DOWN:
+            srcRect = ghost[ghostType][DOWN][ghostFrame[ghostType] / 7];
+            break;
+        case LEFT:
+            srcRect = ghost[ghostType][LEFT][ghostFrame[ghostType] / 7];
+            break;
+        case RIGHT:
+            srcRect = ghost[ghostType][RIGHT][ghostFrame[ghostType] / 7];
+            break;
+        case BLUE_SCARED:
+            srcRect = ghost[ghostType][BLUE_SCARED][ghostFrame[ghostType] / 7];
+            break;
+        case WHITE_SCARED:
+            srcRect = ghost[ghostType][((ghostFrame[ghostType] / 7 < 1) ? BLUE_SCARED : WHITE_SCARED)][ghostFrame[ghostType] / 7];
+            break;
+        }
 
     SDL_RenderCopy(renderer, characterTexture, &srcRect, &dsRect);
 }

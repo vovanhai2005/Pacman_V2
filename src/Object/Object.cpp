@@ -10,7 +10,7 @@ Object::Object(int tileX , int tileY , int velX , int velY)
     
     this -> srcPosX = tileX * 16 + 8;
     this -> srcPosY = tileY * 16;
-    srcPosY = 0;
+    
     dead = false;
 }
 
