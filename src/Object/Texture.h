@@ -1,74 +1,66 @@
 #pragma once
 
-#ifndef _TEXTURE_H
-#define _TEXTURE_H
+#ifndef _TEXTURESRC_H_
+#define _TEXTURESRC_H_
 
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 #include "../Manage/LogStat.h"
 
-class Texture 
-{
-    public: 
+class Texture {
+    private:
+        LogStatus* Console = new LogStatus("Texture");
 
-        const int PIXELS = 31;
-        // PACMAN
-        const static int UP = 0;
-        const static int DOWN = 1;
-        const static int LEFT = 2;
-        const static int RIGHT = 3;
-        const static int PACMAN_DEAD = 5;
-        //GHOST
-        const static int BLUE_SCARED = 4;
-        const static int WHITE_SCARED = 5;
-        const static int TOTAL_GHOST = 6;
+        SDL_Texture* tileTexture;
+        SDL_Rect tile[32];
 
-        const static int BLINKY = 0;
-        const static int PINKY = 1;
-        const static int INKY = 2;
-        const static int CLYDE = 3;
-        const static int GREENDY = 4;
-        const static int FRIENDY = 5; 
-        const static int GHOST_DEAD = 6;
+        SDL_Texture* characterTexture;
+        SDL_Texture* scoreTexture;
+        SDL_Rect PacmanUp[3];
+        SDL_Rect PacmanDown[3];
+        SDL_Rect PacmanLeft[3];
+        SDL_Rect PacmanRight[3];
+        SDL_Rect PacmanDead[11];
+        SDL_Rect ghost[7][6][2];
+
+        int pacmanFrame;
+        int ghostFrame[7];
+    public:
+        static const int UP = 0;
+        static const int RIGHT = 1;
+        static const int DOWN = 2;
+        static const int LEFT = 3;
+
+        static const int WHITE_SCARED = 5;
+        static const int BLUE_SCARED = 4;
+        static const int PACMAN_DEAD = 5;
+
+        static const int BLINKY = 0;
+        static const int PINKY  = 1;
+        static const int INKY   = 2;
+        static const int CLYDE  = 3;
+        static const int GREENDY = 4;
+        static const int FRIENDY = 5;
+        static const int GHOST_DEAD = 6;
+        static const int TOTAL_GHOST = 7;
 
         Texture();
 
-        ~Texture(); 
+        ~Texture();
+
+        bool pacmanIsDead();
 
         void loadImageToTileTexture(SDL_Renderer* &renderer);
 
-        void renderTileTexture(SDL_Renderer* &renderer , int tilePos , SDL_Rect* dstrect);
+        void renderTileTexture(SDL_Renderer* &renderer, int tileID, SDL_Rect* dsRect);
 
         void loadCharacterTexture(SDL_Renderer* &renderer);
 
-        void renderPacmanTexture(SDL_Renderer* &renderer , int posX , int posY , int stat);
+        void renderPacmanTexture(SDL_Renderer* &renderer, int posX, int posY, int status);
 
-        void renderGhostTexture(SDL_Renderer* &renderer , int posX , int posY , int ghostType , int stat);
-        
-        void renderGhostScore(SDL_Renderer* &renderer , int posX , int posY , int ghostStreak);
-    private:
-        const std::string FILE_NAME = "Texture";
-        LogStatus* Console = new LogStatus(FILE_NAME);
+        void renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, int ghostID, int status);
 
-        //Texture
-        SDL_Texture* tileTexture = NULL;
-        SDL_Texture* characterTexture = NULL;
-        SDL_Texture* scoreTexture = NULL;
-
-        //Tile to make Map
-        SDL_Rect tile[32];
-
-        //Pacman pixels
-        SDL_Rect PacmanUp[4];
-        SDL_Rect PacmanDown[4];
-        SDL_Rect PacmanLeft[4];
-        SDL_Rect PacmanRight[4];
-        SDL_Rect PacmanDead[11];
-
-        SDL_Rect ghost[6][5][2];
-        
-        int pacmanFrame = 0;
-        int ghostFrame[7];
-
+        void renderGhostScore(SDL_Renderer* &renderer, const int eatenGhostPosX, const int eantenGhostPosY, const int eatenGhostStreak);
 };
-#endif
+
+#endif // _TEXTURESRC_H_

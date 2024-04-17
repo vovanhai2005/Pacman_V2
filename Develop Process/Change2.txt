@@ -1,0 +1,7 @@
+Ngày 17/04/2024
+--------------------------------------------------------------------------------------
+Thay đổi:
+	- Đã render được Pacman và 4 con Ghost bao gồm: Blinky, Pinky, Inky, Clyde
+	- Đã code được di chuyển cho Pacman
+	- Đã check được collision cho Pacman để đi trong map
+	

@@ -28,8 +28,8 @@ class Operator {
     public:
 
         static const int UP = 0;
-        static const int DOWN = 1;
-        static const int RIGHT = 2;
+        static const int RIGHT = 1;
+        static const int DOWN = 2;
         static const int LEFT = 3;
 
         Operator();
@@ -59,13 +59,16 @@ class Operator {
 
         void init(SDL_Renderer* &renderer);
 
+        void gameOperate();
+
         void renderGhost(SDL_Renderer* &renderer , Ghost* &ghost , int ghostType);
 
-        void makingEvent(SDL_Event &e);
+        void makingEvent(SDL_Event &e , SDL_Renderer* &renderer);
 
         void render(SDL_Renderer* &renderer);
 
-        void gameOperate();
+        void inLoop();
         
+        void printf();
 };
 #endif

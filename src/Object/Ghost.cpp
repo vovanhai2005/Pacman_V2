@@ -99,7 +99,7 @@ void Ghost::markDesination(int tileX , int tileY , int acce){
 }
 
 void Ghost::ghostRespawn(int tileX , int tileY , bool lock){
-    resetTile();
+    resetTile(tileX , tileY);
     this -> lock = lock;
     if (lock) ghostDir = UP;
     else ghostDir = (rand() % 2) ? RIGHT : LEFT;

@@ -41,13 +41,6 @@ void Game::initSDL()
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
             SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-            // if (TTF_Init() < 0) Console->Status( TTF_GetError() );
-            // else Console->Status("TTF Ready!");
-
-            // if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 8, 2048) < 0) Console->Status( Mix_GetError() );
-            // else Console->Status("Audio Ready!");
-            // Mix_Volume(-1, MIX_MAX_VOLUME);
-
             std::ifstream inFILE("score.txt");
             std::string st;
             int cnt = 0;
@@ -67,23 +60,23 @@ void Game::runGame()
 {
     SDL_Event e;
     Operator* ope = new Operator();
+    ope -> init(renderer);
+    ope -> gameOperate();
     while (gameRunning)
     {
         while (SDL_PollEvent(&e) != 0)
         {
-            if (e.type == SDL_QUIT)
-                gameRunning = false;
-            else {
-                ope -> makingEvent(e);
-            }
+            if (e.type == SDL_QUIT) gameRunning = false;
+            else ope -> makingEvent(e , renderer);
         }
         // Clear renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        ope -> init(renderer);
-        ope -> gameOperate();
+        ope -> inLoop();
         ope -> render(renderer);
+
+        ope -> printf();
 
         SDL_RenderPresent(renderer);
     }

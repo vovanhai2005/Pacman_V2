@@ -21,7 +21,7 @@ bool Pacman::emptyUnique(){
 }
 
 std::pair<int , int> Pacman::getUnique(){
-    return Unique.top().second ;
+    return Unique.top().second;
 }
 
 void Pacman::insertStack(int nDir)
@@ -44,9 +44,9 @@ void Pacman::moving(){
         int velX = 0 , velY = 0 , dir = -1;
         switch (Dir.top()){
             case UP:   velX = 0; velY = -PACMAN_PACE; dir = 0; break;
-            case DOWN: velX = 0; velY = PACMAN_PACE; dir = 1; break;
-            case LEFT: velX = -PACMAN_PACE; velY = 0; dir = 2; break;
-            case RIGHT: velX = PACMAN_PACE; velY = 0; dir = 3; break;
+            case DOWN: velX = 0; velY = PACMAN_PACE; dir = 2; break;
+            case LEFT: velX = -PACMAN_PACE; velY = 0; dir = 3; break;
+            case RIGHT: velX = PACMAN_PACE; velY = 0; dir = 1; break;
         }
         changeDir(velX , velY , dir);
         move();
@@ -56,9 +56,12 @@ void Pacman::moving(){
 void Pacman::stopMoving(){
     while(!Dir.empty()) Dir.pop();
 }
+void Pacman::stopTurning(){
+    while(!Unique.empty()) Unique.pop();
+}
+
 void Pacman::turn(){
     stopMoving();
-
     Dir.push(Unique.top().first);
     Unique.pop();
 }

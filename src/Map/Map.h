@@ -14,7 +14,6 @@ class Map{
     private:
         static const int MAP_WIDTH = 28;
         static const int MAP_HEIGHT = 31;
-        static const int MODULO = 37;
 
         const std::string mapFile = "src/Map/Pacman_Map.txt";
         LogStatus* Console = new LogStatus("Map");
@@ -44,7 +43,7 @@ class Map{
         
         bool isSatis(int x);
         
-        bool isWall(int x , int y);
+        bool isWall(std::pair<int, int> tileID);
 
         bool isWallBehind(std::pair<int , int> cross , int newDir);
 
@@ -59,6 +58,8 @@ class Map{
         void findNearestCross();
 
         void distCalc();
+        
+        int getDist(std::pair<int, int> start, std::pair<int, int> end, int startDir);
 
         void reset();
 };

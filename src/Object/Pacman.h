@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <stack>
 
+#define II std::pair<int , int>
+
 class Pacman : public Object {
     private:
         std::stack<int> Dir;
@@ -40,6 +42,12 @@ class Pacman : public Object {
         
         void stopMoving();
 
+        void stopTurning();
+
         void turn();
+
+        std::pair<int , int> size(){
+            return II(Dir.size() , Unique.size());
+        }
 };
 #endif
