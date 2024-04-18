@@ -60,6 +60,7 @@ void Game::runGame()
 {
     SDL_Event e;
     Operator* ope = new Operator();
+    // GameItemManage* itemManage = new GameItemManage();
     ope -> init(renderer);
     ope -> gameOperate();
     while (gameRunning)
@@ -75,8 +76,6 @@ void Game::runGame()
 
         ope -> inLoop();
         ope -> render(renderer);
-
-        ope -> printf();
 
         SDL_RenderPresent(renderer);
     }

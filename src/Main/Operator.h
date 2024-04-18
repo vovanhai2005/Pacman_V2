@@ -11,6 +11,7 @@
 #include "../Object/Item.h"
 #include "../Object/Texture.h"
 #include "../Manage/LogStat.h"
+#include "../Manage/GameItemManage.h"
 
 class Operator {
     private:
@@ -24,6 +25,7 @@ class Operator {
         Texture* objectTexture;
         SDL_Texture* nextLevel;
         SDL_Texture* ready;
+        GameItemManage* itemManage;
 
     public:
 

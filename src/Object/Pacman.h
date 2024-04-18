@@ -46,8 +46,8 @@ class Pacman : public Object {
 
         void turn();
 
-        std::pair<int , int> size(){
-            return II(Dir.size() , Unique.size());
-        }
+        // std::pair<int , int> size(){
+        //     return II(Dir.size() , Unique.size());
+        // }
 };
 #endif

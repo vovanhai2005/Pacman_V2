@@ -3,7 +3,6 @@
 #include <random>
 #include <time.h>
 
-#define II std::pair<int, int>
 #define fi first
 #define se second
 
@@ -25,6 +24,7 @@ void Operator::init(SDL_Renderer *&renderer)
 {
     map = new Map();
     objectTexture = new Texture();
+    // itemManage = new GameItemManage();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
 }
@@ -79,7 +79,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
             //     }
             // }
             // std::cout << std::endl;
-            if (!pacman->emptyDir()) lastDir = pacman -> getDir();
+            if (!pacman -> emptyDir()) lastDir = pacman -> getDir();
 
             if (e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_w) newDir = 0;
             else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_d) newDir = 1;
@@ -95,10 +95,10 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
             }
             else{
                 if (newDir % 2 == lastDir % 2){
-                    if (map->isDirChange(pacmanTileX, pacmanTileY, newDir))
+                    if (map -> isDirChange(pacmanTileX, pacmanTileY, newDir))
                     {
-                        pacman->insertStack(newDir);
-                        pacman->emptyUnique();
+                        pacman -> insertStack(newDir);
+                        pacman -> emptyUnique();
                     }
                 }
                 else
@@ -108,22 +108,22 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
                     {
                         if (pacmanPosY == pacmanTileY * 16)
                         {
-                            if (map->isDirChange(pacmanTileX, pacmanTileY, newDir))
-                                pacman->insertUnique(newDir, II(pacmanTileX, pacmanTileY));
-                            else if (nextCross != II(-1, -1) && !map->isWallBehind(nextCross, newDir) && abs(pacmanPosX - nextCross.first * 16) <= 32)
-                                pacman->insertUnique(newDir, nextCross);
+                            if (map -> isDirChange(pacmanTileX, pacmanTileY, newDir))
+                                pacman -> insertUnique(newDir, II(pacmanTileX, pacmanTileY));
+                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosX - nextCross.first * 16) <= pacman -> PACMAN_PACE * 16)
+                                pacman -> insertUnique(newDir, nextCross);
                         }
                     }
                     else if (lastDir % 2 == 0 && newDir % 2 == 1)
                     {
                         if (pacmanPosX == pacmanTileX * 16)
                         {
-                            if (map->isDirChange(pacmanTileX, pacmanTileY, newDir))
+                            if (map -> isDirChange(pacmanTileX, pacmanTileY, newDir))
                             {
-                                pacman->insertUnique(newDir, II(pacmanTileX, pacmanTileY));
+                                pacman -> insertUnique(newDir, II(pacmanTileX, pacmanTileY));
                             }
-                            else if (nextCross != II(-1, -1) && !map->isWallBehind(nextCross, newDir) && abs(pacmanPosY - nextCross.second * 16) <= 32)
-                                pacman->insertUnique(newDir, nextCross);
+                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosY - nextCross.second * 16) <= pacman -> PACMAN_PACE * 16)
+                                pacman -> insertUnique(newDir, nextCross);
                         }
                     }
                 }
@@ -142,63 +142,61 @@ void Operator::render(SDL_Renderer *&renderer)
         for (int j = 0; j < 31; ++j)
         {
             dsRect = {i * 16 + 217, j * 16, 16, 16};
-            objectTexture->renderTileTexture(renderer, map->getID(i, j), &dsRect);
+            objectTexture -> renderTileTexture(renderer, map -> getID(i, j), &dsRect);
         }
     }
     int dir = -1;
-    if (!pacman->emptyDir()) dir = pacman->getDir();
-    if (!pacman->isDead())
+    if (!pacman -> emptyDir()) dir = pacman -> getDir();
+    if (!pacman -> isDead())
     {
         renderGhost(renderer, blinky, Texture::BLINKY);
         renderGhost(renderer, pinky, Texture::PINKY);
         renderGhost(renderer, inky, Texture::INKY);
         renderGhost(renderer, clyde, Texture::CLYDE);
     }
-    if (pacman->isDead()) {
-        objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), Texture::PACMAN_DEAD);
+    if (pacman -> isDead()) {
+        objectTexture -> renderPacmanTexture(renderer, pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
     }
-    else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
+    else objectTexture -> renderPacmanTexture(renderer, pacman -> getPosX(), pacman -> getPosY(), dir);
     // std::cout << pacman -> size() << std::endl;
 }
 
 void Operator::inLoop()
 {
-    int pacmanTileX = pacman->getTileX();
-    int pacmanTileY = pacman->getTileY();
-    int pacmanPosX = pacman->getPosX();
-    int pacmanPosY = pacman->getPosY();
+    int pacmanTileX = pacman -> getTileX();
+    int pacmanTileY = pacman -> getTileY();
+    int pacmanPosX = pacman -> getPosX();
+    int pacmanPosY = pacman -> getPosY();
     int lastDir = -1;
-    if (!pacman->emptyDir()) lastDir = pacman->getDir();
+    if (!pacman -> emptyDir()) lastDir = pacman -> getDir();
 
-    if (!pacman->isDead() && lastDir != -1) {
+    if (!pacman -> isDead() && lastDir != -1) {
         if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 == pacmanPosY) {
-            if (map->isCross(pacmanTileX, pacmanTileY)) {
-                if (!pacman->emptyUnique() && pacman->getUnique() == II(pacmanTileX, pacmanTileY)) pacman->turn();
+            if (map -> isCross(pacmanTileX, pacmanTileY)) {
+                if (!pacman -> emptyUnique() && pacman -> getUnique() == II(pacmanTileX, pacmanTileY)) pacman -> turn();
             }
-            if (map->isDirChange(pacmanTileX, pacmanTileY, pacman->getDir())) pacman->moving();
-            else pacman->stopMoving();
+            if (map -> isDirChange(pacmanTileX, pacmanTileY, pacman -> getDir())) pacman -> moving();
+            else pacman -> stopMoving();
         }
         else {
-            if (map->isDirChange(pacmanTileX, pacmanTileY, lastDir)) pacman->moving();
+            if (map -> isDirChange(pacmanTileX, pacmanTileY, lastDir)) pacman -> moving();
             else {
-                if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 != pacmanPosY) pacman->moving();
-                else if (pacmanTileX * 16 != pacmanPosX && pacmanTileY * 16 == pacmanPosY) pacman->moving();
-                else pacman->stopMoving();
+                if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 != pacmanPosY) pacman -> moving();
+                else if (pacmanTileX * 16 != pacmanPosX && pacmanTileY * 16 == pacmanPosY) pacman -> moving();
+                else pacman -> stopMoving();
             }
         }
     }
 
-    pacmanTileX = pacman->getTileX();
-    pacmanTileY = pacman->getTileY();
+    int coinType = map -> coinCollected(pacmanTileX, pacmanTileY);
 
-    pacmanPosX = pacman->getPosX();
-    pacmanPosY = pacman->getPosY();
-    lastDir = -1;
-    if (!pacman->emptyDir()) lastDir = pacman->getDir();
+    // if (coinType) itemManage -> eatCoins(coinType);
 
-    pacman->goIntoTunnel();
+    pacman -> goIntoTunnel();
+    
+    // itemManage -> ghostStart(pinky , inky , clyde);
 }
 
-void Operator::printf(){
-    std::cout << pacman -> size().first << " " << pacman -> size().second << '\n';
-}
+// void Operator::printf(){
+//     std::cout << pacman -> size().first << " " << pacman -> size().second << '\n';
+// }
