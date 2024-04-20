@@ -3,8 +3,8 @@
 #ifndef _OPERATOR_H
 #define _OPERATOR_H
 
-#include "SDL.h"
-#include "SDL_Mixer.h"
+#include <SDL.h>
+#include <SDL_Mixer.h>
 #include "../Map/Map.h"
 #include "../Object/Pacman.h"
 #include "../Object/Ghost.h"
@@ -12,6 +12,8 @@
 #include "../Object/Texture.h"
 #include "../Manage/LogStat.h"
 #include "../Manage/GameItemManage.h"
+#include "../Manage/SoundManage.h"
+#include "../Manage/Try.h"
 
 class Operator {
     private:
@@ -26,7 +28,8 @@ class Operator {
         SDL_Texture* nextLevel;
         SDL_Texture* ready;
         GameItemManage* itemManage;
-
+        SoundManage* soundManage;
+        Try* tryit;
     public:
 
         static const int UP = 0;

@@ -3,7 +3,7 @@
 #ifndef _MAP_H
 #define _MAP_H
 
-#include "SDL.h"
+#include <SDL.h>
 #include "../Manage/LogStat.h"
 #include <stdio.h>
 #include <iostream>

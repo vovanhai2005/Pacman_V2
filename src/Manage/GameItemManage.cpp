@@ -7,11 +7,10 @@ GameItemManage::GameItemManage(){
     coinsEat = 0;
     ghostEat = 0;
     score = 0;
-    
 }
 
 GameItemManage::~GameItemManage(){
-        
+    
 }
 
 SDL_Texture* GameItemManage::loadImage(SDL_Renderer* &renderer , std::string imagePath){
@@ -27,7 +26,6 @@ void GameItemManage::resetGameItem(){
     coinsEat = 0;
     ghostEat = 0;
     score = 0;
-
 }
 
 int GameItemManage::getLife(){
@@ -99,8 +97,3 @@ void GameItemManage::ghostStart(Ghost* pinky , Ghost* inky , Ghost* clyde){
     if (inky -> Lock() && coinsEat >= INKY_COIN_OUT) inky -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false);
     if (clyde -> Lock() && coinsEat >= CLYDE_COIN_OUT) clyde -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false);
 }
-
-
-
-
-

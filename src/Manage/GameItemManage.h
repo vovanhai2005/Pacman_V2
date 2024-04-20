@@ -3,8 +3,8 @@
 #ifndef _GAMEITEMMANAGE_H
 #define _GAMEITEMMANAGE_H
 
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 #include "../Object/Ghost.h"    
 
 class GameItemManage {
@@ -24,7 +24,7 @@ class GameItemManage {
         const int PINKY_COIN_OUT = 15;
         const int INKY_COIN_OUT = 30;
         const int CLYDE_COIN_OUT = 50;
-        
+
         GameItemManage();
 
         ~GameItemManage();

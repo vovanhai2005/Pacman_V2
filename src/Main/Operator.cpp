@@ -6,8 +6,6 @@
 #define fi first
 #define se second
 
-using namespace std;
-
 Operator::Operator()
 {
     map = NULL;
@@ -24,9 +22,11 @@ void Operator::init(SDL_Renderer *&renderer)
 {
     map = new Map();
     objectTexture = new Texture();
-    // itemManage = new GameItemManage();
+    soundManage = new SoundManage();
+    itemManage = new GameItemManage();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
+    soundManage -> initSound();
 }
 
 void Operator::gameOperate()
@@ -110,7 +110,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
                         {
                             if (map -> isDirChange(pacmanTileX, pacmanTileY, newDir))
                                 pacman -> insertUnique(newDir, II(pacmanTileX, pacmanTileY));
-                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosX - nextCross.first * 16) <= pacman -> PACMAN_PACE * 16)
+                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosX - nextCross.first * 16) <= 48)
                                 pacman -> insertUnique(newDir, nextCross);
                         }
                     }
@@ -122,7 +122,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
                             {
                                 pacman -> insertUnique(newDir, II(pacmanTileX, pacmanTileY));
                             }
-                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosY - nextCross.second * 16) <= pacman -> PACMAN_PACE * 16)
+                            else if (nextCross != II(-1, -1) && !map -> isWallBehind(nextCross, newDir) && abs(pacmanPosY - nextCross.second * 16) <= 48)
                                 pacman -> insertUnique(newDir, nextCross);
                         }
                     }
@@ -190,11 +190,11 @@ void Operator::inLoop()
 
     int coinType = map -> coinCollected(pacmanTileX, pacmanTileY);
 
-    // if (coinType) itemManage -> eatCoins(coinType);
+    if (coinType != 0) itemManage -> eatCoins(coinType);
 
     pacman -> goIntoTunnel();
     
-    // itemManage -> ghostStart(pinky , inky , clyde);
+    itemManage -> ghostStart(pinky , inky , clyde);
 }
 
 // void Operator::printf(){

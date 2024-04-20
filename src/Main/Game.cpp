@@ -41,6 +41,11 @@ void Game::initSDL()
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
             SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+            if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+                Console -> Status("Mixer error!");
+            }
+            else Console -> Status("Mixer Ready");
+
             std::ifstream inFILE("score.txt");
             std::string st;
             int cnt = 0;
@@ -60,7 +65,6 @@ void Game::runGame()
 {
     SDL_Event e;
     Operator* ope = new Operator();
-    // GameItemManage* itemManage = new GameItemManage();
     ope -> init(renderer);
     ope -> gameOperate();
     while (gameRunning)
@@ -93,6 +97,6 @@ void Game::quitSDL()
         revFILE << highScore[i] << '\n';
     revFILE.close();
     SDL_Quit();
-    // Mix_Quit();
+    Mix_Quit();
     // TTF_Quit();
 }
