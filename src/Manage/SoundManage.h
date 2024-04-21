@@ -17,8 +17,8 @@ class SoundManage{
         //Channel 1
         static const int MOVE_0 = 0;
         static const int MOVE_1 = 1;
-        static const int MOVE_2 = 3;
-        static const int MOVE_3 = 4;
+        static const int MOVE_2 = 2;
+        static const int MOVE_3 = 3;
         //  Channel 2
         static const int START = 4;
         static const int NEXT_LEVEL = 10;

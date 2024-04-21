@@ -27,22 +27,27 @@ void SoundManage::initSound(){
     sound[DEAD] = Mix_LoadWAV("assets/Sound/dead.wav");
     sound[NEXT_LEVEL] = Mix_LoadWAV("assets/Sound/next level.wav");
 
+    bool check = true;
     for (int i = 0 ; i < 11 ; ++i){
         if (sound[i] == NULL){
-            Console->Status(Mix_GetError());
+            std::cout << "Error at: " << i << std::endl;
+            check = false;
         }
     }
+    if (check){
+        std::cout << "Sound loaded successfully!";
+    }
 
-    Mix_PlayChannel(1 , soundEffect[MOVE_0] , -1);            
+    Mix_PlayChannel(1 , sound[MOVE_0] , -1);            
     Mix_Pause(1);
 
-    Mix_PlayChannel(3 , soundEffect[EAT_COIN] , -1);           
+    Mix_PlayChannel(3 , sound[EAT_COIN] , -1);           
     Mix_Pause(3);
 
-    Mix_PlayChannel(5 , soundEffect[GHOST_TURN_BLUE] , -1);   
+    Mix_PlayChannel(5 , sound[GHOST_TURN_BLUE] , -1);   
     Mix_Pause(5);
 
-    Mix_PlayChannel(6 , soundEffect[GHOST_HOME] , -1);     
+    Mix_PlayChannel(6 , sound[GHOST_HOME] , -1);     
     Mix_Pause(6);
 }
 
