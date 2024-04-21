@@ -160,6 +160,7 @@ void Operator::render(SDL_Renderer *&renderer)
     }
     else objectTexture -> renderPacmanTexture(renderer, pacman -> getPosX(), pacman -> getPosY(), dir);
     // std::cout << pacman -> size() << std::endl;
+    soundManage -> playSound();
 }
 
 void Operator::inLoop()
@@ -194,7 +195,6 @@ void Operator::inLoop()
     if (coinType != 0){
         itemManage -> eatCoins(coinType);
         soundManage -> loadingSound(SoundManage::EAT_COIN);
-        soundManage -> playSound();
     }
 
     pacman -> goIntoTunnel();
