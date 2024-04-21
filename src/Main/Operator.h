@@ -73,6 +73,8 @@ class Operator {
         void render(SDL_Renderer* &renderer);
 
         void inLoop();
+
+        void ghostAI(Ghost* &ghostID);
         
         void printf();
 };

@@ -206,14 +206,14 @@ int Map::coinCollected(int pacmanTileX , int pacmanTileY) {
     return 0;
 }
 
-// int Map::getDist(std::pair<int, int> start, std::pair<int, int> end, int startDir) {
-//     if (isWall(end)) return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
-//     else {
-//         if (dist[start.first * MAP_HEIGHT + start.second][end.first * MAP_HEIGHT + end.second][startDir] == -1)
-//             return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
-//         else return dist[start.first * MAP_HEIGHT + start.second][end.first * MAP_HEIGHT + end.second][startDir];
-//     }
-// }
+int Map::getDist(std::pair<int, int> start, std::pair<int, int> end, int startDir) {
+    if (isWall(end)) return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
+    else {
+        if (dist[start.second][start.first][end.se][end.first][startDir] == -1)
+            return (start.first - end.first) * (start.first - end.first) + (start.second - end.second) * (start.second - end.second);
+        else return dist[start.second][start.first][end.se][end.first][startDir];
+    }
+}
 
 void Map::reset() {
     for (int i = 0; i < MAP_HEIGHT; ++i)
