@@ -202,6 +202,25 @@ void Operator::inLoop()
     itemManage -> ghostStart(pinky , inky , clyde);
 }
 
+void Operator::ghostAI(Ghost* &ghostID){
+    // Init variables
+    int ghostTileX = ghostID -> getTileX();
+    int ghostTileY = ghostID -> getTileY();
+    int ghostNextTileX = ghostID -> getNextTileX();
+    int ghostNextTileY = ghostID -> getNextTileY();
+    int ghostDir = ghostID -> getGhostDir();
+    int ghostPosX = ghostID -> getPosX();
+    int ghostPosY = ghostID -> getPosY();
+
+    // Function
+
+    if (ghostPosX == ghostTileX * 16 && ghostPosY == ghostTileY * 16){
+        if (map -> isCross(ghostTileX , ghostTileY)){
+            
+        }
+    }
+}
+
 // void Operator::printf(){
 //     std::cout << pacman -> size().first << " " << pacman -> size().second << '\n';
 // }
