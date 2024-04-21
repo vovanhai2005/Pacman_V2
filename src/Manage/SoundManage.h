@@ -13,6 +13,8 @@ class SoundManage{
         bool dead = false;
         int eatCoin = 0;
         bool ghostTurnBlue = false;
+        bool ghostHome = false;
+        int lastMove , move;
     public:
         //Channel 1
         static const int MOVE_0 = 0;
@@ -37,6 +39,8 @@ class SoundManage{
         ~SoundManage();
 
         void initSound();
+
+        void loadingSound(const int soundID);
 
         void playSound();
 };

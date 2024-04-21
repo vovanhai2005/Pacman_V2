@@ -191,7 +191,11 @@ void Operator::inLoop()
 
     int coinType = map -> coinCollected(pacmanTileX, pacmanTileY);
 
-    if (coinType != 0) itemManage -> eatCoins(coinType);
+    if (coinType != 0){
+        itemManage -> eatCoins(coinType);
+        soundManage -> loadingSound(SoundManage::EAT_COIN);
+        soundManage -> playSound();
+    }
 
     pacman -> goIntoTunnel();
     
