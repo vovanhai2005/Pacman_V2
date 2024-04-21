@@ -4,7 +4,7 @@
 SoundManage::SoundManage(){
     for (int i = 0 ; i < 11 ; ++i){
         sound[i] = NULL;
-    }       
+    }           
 }
 
 SoundManage::~SoundManage(){

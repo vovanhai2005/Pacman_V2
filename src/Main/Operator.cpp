@@ -24,9 +24,10 @@ void Operator::init(SDL_Renderer *&renderer)
     objectTexture = new Texture();
     soundManage = new SoundManage();
     itemManage = new GameItemManage();
+    tryit = new Try();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
-    soundManage -> initSound();
+   // soundManage -> initSound();
 }
 
 void Operator::gameOperate()
@@ -190,11 +191,11 @@ void Operator::inLoop()
 
     int coinType = map -> coinCollected(pacmanTileX, pacmanTileY);
 
-    if (coinType != 0) itemManage -> eatCoins(coinType);
+    // if (coinType != 0) itemManage -> eatCoins(coinType);
 
     pacman -> goIntoTunnel();
     
-    itemManage -> ghostStart(pinky , inky , clyde);
+    // itemManage -> ghostStart(pinky , inky , clyde);
 }
 
 // void Operator::printf(){
