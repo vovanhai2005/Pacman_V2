@@ -205,6 +205,9 @@ void Operator::inLoop()
     ghostAI(clyde);
 
     itemManage -> ghostStart(pinky , inky , clyde);     
+    if (itemManage -> coinClear()){
+        soundManage -> loadingSound(SoundManage::NEXT_LEVEL);
+    }
 }
 
 void Operator::ghostAI(Ghost* &ghostID){

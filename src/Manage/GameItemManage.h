@@ -21,9 +21,9 @@ class GameItemManage {
     public:
         const int smallCoin = 26;
         const int bigCoin = 27;
-        int PINKY_COIN_OUT = 15;
-        int INKY_COIN_OUT = 50;
-        int CLYDE_COIN_OUT = 100;
+        int PINKY_COIN_OUT = 240;
+        int INKY_COIN_OUT = 240;
+        int CLYDE_COIN_OUT = 240;
 
         GameItemManage();
 
