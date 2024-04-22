@@ -34,6 +34,8 @@ class SoundManage{
         // Channel 6
         static const int GHOST_HOME = 8;
 
+        static const int NORMAL_GHOST = 11;
+
         SoundManage();
 
         ~SoundManage();
@@ -43,5 +45,7 @@ class SoundManage{
         void loadingSound(const int soundID);
 
         void playSound();
+
+        void reset();
 };
 #endif

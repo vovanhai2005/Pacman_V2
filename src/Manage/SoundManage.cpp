@@ -55,8 +55,32 @@ void SoundManage::loadingSound(const int soundID){
     if (soundID >= 0 && soundID <= 3) move = soundID;
     else if (soundID == EAT_COIN) eatCoin = 16;
     else if (soundID == EAT_GHOST) Mix_PlayChannel(4 , sound[EAT_GHOST] , -1);
+    else if (soundID == NORMAL_GHOST) ghostTurnBlue = false;
     else if (soundID == GHOST_TURN_BLUE) ghostTurnBlue = true;
     else if (soundID == GHOST_HOME) ghostHome = true;
+    else if (soundID == dead){
+        dead = true;
+        ghostTurnBlue = false;
+        Mix_Pause(5);
+        ghostHome = false;
+        Mix_Pause(6);
+        eatCoin = 0;
+        Mix_Pause(3);
+        Mix_Pause(1);
+    }
+    else if (soundID == START || soundID == NEXT_LEVEL){
+        dead = false;
+        ghostHome = false;    
+        Mix_Pause(6);
+        ghostTurnBlue = false;  
+        Mix_Pause(5);
+        eatCoin = 0;         
+        Mix_Pause(3);
+        Mix_Pause(1);
+        if (soundID == NEXT_LEVEL) lastMove = MOVE_0;
+        else lastMove = -1;
+        Mix_PlayChannel(2 , sound[soundID] , 0);
+    }
 }
 
 void SoundManage::playSound(){
@@ -86,5 +110,9 @@ void SoundManage::playSound(){
         Mix_Pause(6);
         if (ghostTurnBlue) Mix_Resume(5);
     }
+}
+
+void SoundManage::reset(){
+    Mix_PlayChannel(1 , sound[lastMove] , -1);
 }
 
