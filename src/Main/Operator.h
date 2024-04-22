@@ -34,7 +34,6 @@ class Operator {
         static const int RIGHT = 1;
         static const int DOWN = 2;
         static const int LEFT = 3;
-        static const int INF = 1e9;
 
         Operator();
 
@@ -74,7 +73,13 @@ class Operator {
         void inLoop();
 
         void ghostAI(Ghost* &ghostID);
+
+        int sqr(int x){
+            return x * x;
+        }
+
+        void checkCollision(Ghost* &ghostID);
         
-        void printf();
+        // void printf();
 };
 #endif

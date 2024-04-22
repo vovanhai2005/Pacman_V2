@@ -43,7 +43,6 @@ void Operator::gameOperate()
     // std::cout << blinky -> getNextTileX() << " " << blinky -> getNextTileY() << std::endl;
     pinky = new Ghost(13, 14, true);
     inky = new Ghost(11, 14, true);
-    std::cout << inky -> Lock() << std::endl;
     clyde = new Ghost(15, 14, true);
 }
 
@@ -215,82 +214,96 @@ void Operator::ghostAI(Ghost* &ghostID){
     int ghostTileY = ghostID -> getTileY();
     int ghostPosX  = ghostID -> getPosX();
     int ghostPosY  = ghostID -> getPosY();
-    int ghostOldDir = ghostID -> getGhostDir();
+    int lastDir = ghostID -> getGhostDir();
     int ghostNextTileX = ghostID -> getNextTileX();
     int ghostNextTileY = ghostID -> getNextTileY();
 
     if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 == ghostPosY) {
-        if (map->isCross(ghostTileX, ghostTileY)) {
-            if (ghostID->isFrighten()) {
-                std::stack<int> whichDir;
-                if (ghostOldDir % 2 == 1) {
-                    if (map->isDirChange(ghostTileX, ghostTileY, Map::UP)) whichDir.push(0);
-                    if (map->isDirChange(ghostTileX, ghostTileY, Map::DOWN)) whichDir.push(2);
-                    if (map->isDirChange(ghostTileX, ghostTileY, ghostOldDir)) whichDir.push(ghostOldDir);
+        if (map -> isCross(ghostTileX, ghostTileY)) {
+            if (ghostID -> isFrighten()) {
+                std::stack<int> dirStack;
+                if (lastDir % 2 == 1) {
+                    if (map -> isDirChange(ghostTileX, ghostTileY, Map::UP)) dirStack.push(0);
+                    if (map -> isDirChange(ghostTileX, ghostTileY, Map::DOWN)) dirStack.push(2);
                 }
                 else {
-                    if (map->isDirChange(ghostTileX, ghostTileY, Map::LEFT)) whichDir.push(3);
-                    if (map->isDirChange(ghostTileX, ghostTileY, Map::RIGHT)) whichDir.push(1);
-                    if (map->isDirChange(ghostTileX, ghostTileY, ghostOldDir)) whichDir.push(ghostOldDir);
+                    if (map -> isDirChange(ghostTileX, ghostTileY, Map::LEFT)) dirStack.push(3);
+                    if (map -> isDirChange(ghostTileX, ghostTileY, Map::RIGHT)) dirStack.push(1);
                 }
-                int dir = rand() % (int) whichDir.size() + 1;
-                while (dir > 1) whichDir.pop(), --dir;
-                ghostID->setDir(whichDir.top());
-                while (!whichDir.empty()) whichDir.pop();
+                if (map -> isDirChange(ghostTileX, ghostTileY, lastDir)) dirStack.push(lastDir);
+                int dir = rand() % (int) dirStack.size() + 1;
+                while (dir > 1) dirStack.pop(), --dir;
+                ghostID -> setDir(dirStack.top());
+                while (!dirStack.empty()) dirStack.pop();
             }
-            else {
-                int distanceUP, distanceDOWN, distanceLEFT, distanceRIGHT;
-                distanceUP = distanceDOWN = distanceLEFT = distanceRIGHT = __INT32_MAX__;
+            else{
+                int distanceUP = __INT32_MAX__ , distanceDOWN = __INT32_MAX__ , distanceLEFT = __INT32_MAX__ , distanceRIGHT = __INT32_MAX__;
+                // Up distance
+                if (map -> isDirChange(ghostTileX, ghostTileY, Map::UP)) distanceUP = map -> getDist(II(ghostTileX, ghostTileY - 1), II(ghostNextTileX, ghostNextTileY), Map::UP);
+                // Down distance
+                if (map -> isDirChange(ghostTileX, ghostTileY, Map::DOWN)) distanceDOWN = map -> getDist(II(ghostTileX, ghostTileY + 1), II(ghostNextTileX, ghostNextTileY), Map::DOWN);
+                // Left distance
+                if (map -> isDirChange(ghostTileX, ghostTileY, Map::LEFT)) distanceLEFT = map -> getDist(II(ghostTileX - 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::LEFT);
+                // Right distance
+                if (map -> isDirChange(ghostTileX, ghostTileY, Map::RIGHT)) distanceRIGHT = map -> getDist(II(ghostTileX + 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::RIGHT);
 
-                if (map->isDirChange(ghostTileX, ghostTileY, Map::UP))
-                    distanceUP = map->getDist(II(ghostTileX, ghostTileY - 1), II(ghostNextTileX, ghostNextTileY), Map::UP);
-
-                if (map->isDirChange(ghostTileX, ghostTileY, Map::DOWN))
-                    distanceDOWN = map->getDist(II(ghostTileX, ghostTileY + 1), II(ghostNextTileX, ghostNextTileY), Map::DOWN);
-
-                if (map->isDirChange(ghostTileX, ghostTileY, Map::LEFT))
-                    distanceLEFT = map->getDist(II(ghostTileX - 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::LEFT);
-
-                if (map->isDirChange(ghostTileX, ghostTileY, Map::RIGHT))
-                    distanceRIGHT = map->getDist(II(ghostTileX + 1, ghostTileY), II(ghostNextTileX, ghostNextTileY), Map::RIGHT);
-
-                int distanceMIN;
-                if (ghostOldDir == Map::UP) {
-                    distanceMIN = std::min(distanceUP, std::min(distanceLEFT, distanceRIGHT));
-                    if (distanceMIN == distanceUP) ghostID->setDir(Map::UP);
-                    else if (distanceMIN == distanceLEFT) ghostID->setDir(Map::LEFT);
-                    else ghostID->setDir(Map::RIGHT);
+                int finalDist;
+                if (lastDir == Map::UP) {
+                    finalDist = std::min({distanceUP, distanceLEFT, distanceRIGHT});
+                    if (finalDist == distanceUP) ghostID -> setDir(Map::UP);
+                    else if (finalDist == distanceLEFT) ghostID -> setDir(Map::LEFT);
+                    else ghostID -> setDir(Map::RIGHT);
                 }
-                else if (ghostOldDir == Map::DOWN) {
-                    distanceMIN = std::min(distanceDOWN, std::min(distanceLEFT, distanceRIGHT));
-                    if (distanceMIN == distanceDOWN) ghostID->setDir(Map::DOWN);
-                    else if (distanceMIN == distanceLEFT) ghostID->setDir(Map::LEFT);
-                    else ghostID->setDir(Map::RIGHT);
+                else if (lastDir == Map::DOWN) {
+                    finalDist = std::min({distanceDOWN , distanceLEFT, distanceRIGHT});
+                    if (finalDist == distanceDOWN) ghostID -> setDir(Map::DOWN);
+                    else if (finalDist == distanceLEFT) ghostID -> setDir(Map::LEFT);
+                    else ghostID -> setDir(Map::RIGHT);
                 }
-                else if (ghostOldDir == Map::LEFT) {
-                    distanceMIN = std::min(distanceUP, std::min(distanceDOWN, distanceLEFT));
-                    if (distanceMIN == distanceUP) ghostID->setDir(Map::UP);
-                    else if (distanceMIN == distanceDOWN) ghostID->setDir(Map::DOWN);
-                    else ghostID->setDir(Map::LEFT);
+                else if (lastDir == Map::LEFT) {
+                    finalDist = std::min({distanceUP , distanceDOWN, distanceLEFT});
+                    if (finalDist == distanceUP) ghostID -> setDir(Map::UP);
+                    else if (finalDist == distanceDOWN) ghostID -> setDir(Map::DOWN);
+                    else ghostID -> setDir(Map::LEFT);
                 }
-                else if (ghostOldDir == Map::RIGHT) {
-                    distanceMIN = std::min(distanceUP, std::min(distanceRIGHT, distanceDOWN));
-                    if (distanceMIN == distanceUP) ghostID->setDir(Map::UP);
-                    else if (distanceMIN == distanceRIGHT) ghostID->setDir(Map::RIGHT);
-                    else ghostID->setDir(Map::DOWN);
+                else if (lastDir == Map::RIGHT) {
+                    finalDist = std::min({distanceUP , distanceRIGHT, distanceDOWN});
+                    if (finalDist == distanceUP) ghostID -> setDir(Map::UP);
+                    else if (finalDist == distanceRIGHT) ghostID -> setDir(Map::RIGHT);
+                    else ghostID -> setDir(Map::DOWN);
                 }
             }
         }
-        if (map->isDirChange(ghostTileX, ghostTileY, ghostID->getGhostDir())) ghostID->moving();
+        if (map -> isDirChange(ghostTileX, ghostTileY, ghostID -> getGhostDir())) ghostID -> moving();
     }
     else {
-        if (map->isDirChange(ghostTileX, ghostTileY, ghostID->getGhostDir())) ghostID->moving();
+        if (map -> isDirChange(ghostTileX, ghostTileY, ghostID -> getGhostDir())) ghostID -> moving();
         else {
-            if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 != ghostPosY && ghostID->getGhostDir() % 2 == 0) ghostID->moving();
-            else if (ghostTileY * 16 == ghostPosY && ghostTileX * 16 != ghostPosX && ghostID->getGhostDir() % 2 == 1) ghostID->moving();
+            if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 != ghostPosY && ghostID -> getGhostDir() % 2 == 0) ghostID -> moving();
+            else if (ghostTileY * 16 == ghostPosY && ghostTileX * 16 != ghostPosX && ghostID -> getGhostDir() % 2 == 1) ghostID -> moving();
         }
     }
-    ghostID->goIntoTunnel();
+    ghostID -> goIntoTunnel();
+    checkCollision(ghostID);
+}
+
+void Operator::checkCollision(Ghost* &ghostID){
+    if (ghostID -> isDead()) return;
+    int dist = sqr((pacman -> getPosX() - ghostID -> getPosX())) + sqr((pacman->getPosY() - ghostID->getPosY()));
+    if (dist <= 9){
+        if (ghostID -> isFrighten()) {
+            itemManage -> eatGhost(ghostID -> getPosX(), ghostID -> getPosY());
+            ghostID -> setDead(true);
+            ghostID -> makeFrighten(false);
+            soundManage -> loadingSound(SoundManage::EAT_GHOST);
+            soundManage -> loadingSound(SoundManage::GHOST_HOME);
+        }
+        else {
+            pacman -> setDead(true, 1);
+            itemManage -> dead();
+            soundManage -> loadingSound(SoundManage::DEAD);
+        }
+    }
 }
 
 // void Operator::printf(){
