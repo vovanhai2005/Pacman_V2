@@ -2,7 +2,7 @@
 #include <random>
 #include <iostream>
 
-Ghost::Ghost(int tileX , int tileY , bool Lock) : Object(tileX , tileY) {
+Ghost::Ghost(int tileX , int tileY , bool lock) : Object(tileX , tileY) {
     frighten = false;
     scattering = false;
     accelerate = 1;
@@ -92,15 +92,18 @@ void Ghost::moving(){
     move();
 }
 
-void Ghost::markDesination(int tileX , int tileY , int acce){
+void Ghost::markDestination(int tileX , int tileY , int acce){
     this -> accelerate = acce;
     nextTileX = tileX;
     nextTileY = tileY;
 }
 
-void Ghost::ghostRespawn(int tileX , int tileY , bool lock){
+void Ghost::ghostRespawn(const int tileX, const int tileY, const bool lock) {
     resetTile(tileX , tileY);
-    this -> lock = lock;
-    if (lock) ghostDir = UP;
-    else ghostDir = (rand() % 2) ? RIGHT : LEFT;
+    this->lock = lock;
+    if (lock == false) {
+        if (rand() % 2 == 0) ghostDir = LEFT;
+        else ghostDir = RIGHT;
+    }
+    else ghostDir = UP;
 }

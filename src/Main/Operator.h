@@ -13,7 +13,6 @@
 #include "../Manage/LogStat.h"
 #include "../Manage/GameItemManage.h"
 #include "../Manage/SoundManage.h"
-#include "../Manage/Try.h"
 
 class Operator {
     private:
@@ -29,13 +28,13 @@ class Operator {
         SDL_Texture* ready;
         GameItemManage* itemManage;
         SoundManage* soundManage;
-        Try* tryit;
     public:
 
         static const int UP = 0;
         static const int RIGHT = 1;
         static const int DOWN = 2;
         static const int LEFT = 3;
+        static const int INF = 1e9;
 
         Operator();
 

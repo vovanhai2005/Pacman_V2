@@ -63,9 +63,9 @@ class Ghost : public Object {
 
         void moving();
 
-        void markDesination(int tileX , int tileY , int acce = 1);
+        void markDestination(int tileX , int tileY , int acce = 1);
 
-        void ghostRespawn(int tileX , int tileY , bool lock);
+        void ghostRespawn(const int tileX , const int tileY , const bool lock);
 
 };
 #endif

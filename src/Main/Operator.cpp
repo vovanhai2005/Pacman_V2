@@ -24,10 +24,9 @@ void Operator::init(SDL_Renderer *&renderer)
     objectTexture = new Texture();
     soundManage = new SoundManage();
     itemManage = new GameItemManage();
-    tryit = new Try();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
-   soundManage -> initSound();
+    soundManage -> initSound();
 }
 
 void Operator::gameOperate()
@@ -44,6 +43,7 @@ void Operator::gameOperate()
     // std::cout << blinky -> getNextTileX() << " " << blinky -> getNextTileY() << std::endl;
     pinky = new Ghost(13, 14, true);
     inky = new Ghost(11, 14, true);
+    std::cout << inky -> Lock() << std::endl;
     clyde = new Ghost(15, 14, true);
 }
 
@@ -199,25 +199,25 @@ void Operator::inLoop()
     }
 
     pacman -> goIntoTunnel();
-
-    itemManage -> ghostStart(pinky , inky , clyde);
     
     ghostAI(blinky);
     ghostAI(pinky);
     ghostAI(inky);
     ghostAI(clyde);
+
+    itemManage -> ghostStart(pinky , inky , clyde);     
 }
 
 void Operator::ghostAI(Ghost* &ghostID){
     
-     if (ghostID == nullptr) return;
-    int ghostTileX = ghostID->getTileX();
-    int ghostTileY = ghostID->getTileY();
-    int ghostPosX  = ghostID->getPosX();
-    int ghostPosY  = ghostID->getPosY();
-    int ghostOldDir = ghostID->getGhostDir();
-    int ghostNextTileX = ghostID->getNextTileX();
-    int ghostNextTileY = ghostID->getNextTileY();
+    if (ghostID == nullptr) return;
+    int ghostTileX = ghostID -> getTileX();
+    int ghostTileY = ghostID -> getTileY();
+    int ghostPosX  = ghostID -> getPosX();
+    int ghostPosY  = ghostID -> getPosY();
+    int ghostOldDir = ghostID -> getGhostDir();
+    int ghostNextTileX = ghostID -> getNextTileX();
+    int ghostNextTileY = ghostID -> getNextTileY();
 
     if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 == ghostPosY) {
         if (map->isCross(ghostTileX, ghostTileY)) {

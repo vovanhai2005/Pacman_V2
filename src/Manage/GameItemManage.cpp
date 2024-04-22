@@ -51,7 +51,7 @@ void GameItemManage::eatCoins(int coinType){
         ghostEat = 0;
         score += 150;
     }
-    std::cout << score << std::endl;
+    std::cout << coinsEat << std::endl;
 }
 
 bool GameItemManage::coinClear(){
@@ -94,7 +94,8 @@ void GameItemManage::nextLevel(){
 }
 
 void GameItemManage::ghostStart(Ghost* pinky , Ghost* inky , Ghost* clyde){
-    if (pinky -> Lock() && coinsEat >= PINKY_COIN_OUT) pinky -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false);
-    if (inky -> Lock() && coinsEat >= INKY_COIN_OUT) inky -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false);
-    if (clyde -> Lock() && coinsEat >= CLYDE_COIN_OUT) clyde -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false);
+    // std::cout << inky -> Lock() << std::endl;
+    if (pinky -> Lock() && coinsEat >= PINKY_COIN_OUT) pinky -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false) , std::cout << "pinky successful";
+    if (inky -> Lock() && coinsEat >= INKY_COIN_OUT) inky -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false), std::cout << "inky successful";
+    if (clyde -> Lock() && coinsEat >= CLYDE_COIN_OUT) clyde -> ghostRespawn(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y , false), std::cout << "clyde successful";
 }
