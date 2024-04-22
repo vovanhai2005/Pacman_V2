@@ -35,6 +35,7 @@ class SoundManage{
         static const int GHOST_HOME = 8;
 
         static const int NORMAL_GHOST = 11;
+        static const int RELIFE_GHOST = 12;
 
         SoundManage();
 
