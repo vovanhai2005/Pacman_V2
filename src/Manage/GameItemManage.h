@@ -41,6 +41,8 @@ class GameItemManage {
 
         void eatCoins(int coinType);
 
+        int remainCoins();
+
         bool coinClear();
 
         int ghostStreak();

@@ -54,6 +54,10 @@ void GameItemManage::eatCoins(int coinType){
     std::cout << coinsEat << std::endl;
 }
 
+int GameItemManage::remainCoins(){
+    return 244 - coinsEat;
+}
+
 bool GameItemManage::coinClear(){
     return (coinsEat == 244);
 }

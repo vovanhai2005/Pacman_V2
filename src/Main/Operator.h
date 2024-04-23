@@ -30,6 +30,7 @@ class Operator {
         GameItemManage* itemManage;
         SoundManage* soundManage;
         TickManage* tickManage;
+
     public:
 
         static const int UP = 0;
