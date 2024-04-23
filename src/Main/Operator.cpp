@@ -173,39 +173,37 @@ void Operator::render(SDL_Renderer *&renderer)
     tickManage -> stablizeFPS();    
     // Render map
     SDL_Rect dsRect;
-    for (int i = 0; i < 28; ++i)
-    {
-        for (int j = 0; j < 31; ++j)
-        {
+    for (int i = 0; i < 28; ++i){
+        for (int j = 0; j < 31; ++j){
             dsRect = {i * 16 + 217, j * 16, 16, 16};
-            objectTexture -> renderTileTexture(renderer, map -> getID(i, j), &dsRect);
+            objectTexture -> renderTileTexture(renderer , map -> getID(i , j), &dsRect);
         }
     }
     int dir = -1;
     if (!pacman -> emptyDir()) dir = pacman -> getDir();
-    if (!pacman -> isDead())
-    {
-        renderGhost(renderer, blinky, Texture::BLINKY);
-        renderGhost(renderer, pinky, Texture::PINKY);
-        renderGhost(renderer, inky, Texture::INKY);
-        renderGhost(renderer, clyde, Texture::CLYDE);
+    if (!pacman -> isDead()){
+        renderGhost(renderer , blinky , Texture::BLINKY);
+        renderGhost(renderer , pinky , Texture::PINKY);
+        renderGhost(renderer , inky , Texture::INKY);
+        renderGhost(renderer , clyde , Texture::CLYDE);
         if (Mix_Playing(2)) {
             dsRect = {441 - 82, 285 - 15 - 7, 164, 30};
             SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
         }
+        objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
     }
-    if (pacman -> isDead()) {
-        if (objectTexture -> pacmanIsDead()) {
+    else{
+        if(objectTexture -> pacmanIsDead()){
             if (itemManage -> getLife() > 0) resetObject();    
         }
         else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
     }
-    else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
     if (timeToNextLevel > 0) {
         dsRect = {441 - 97, 248 - 52, 194, 104};
         SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
     }
-    if (Mix_Playing(4)) objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
+    if (Mix_Playing(4)) 
+        objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
     soundManage -> playSound();
 }
 

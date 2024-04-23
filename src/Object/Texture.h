@@ -60,7 +60,7 @@ class Texture {
 
         void renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, int ghostID, int status);
 
-        void renderGhostScore(SDL_Renderer* &renderer, const int eatenGhostPosX, const int eantenGhostPosY, const int eatenGhostStreak);
+        void renderGhostScore(SDL_Renderer* &renderer, int eatenGhostPosX, int eantenGhostPosY, int eatenGhostStreak);
 };
 
 #endif // _TEXTURESRC_H_

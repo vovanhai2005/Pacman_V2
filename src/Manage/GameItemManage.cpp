@@ -67,12 +67,13 @@ int GameItemManage::ghostStreak(){
 }
 
 void GameItemManage::eatGhost(int ghostAtTileX , int ghostAtTileY){
-    int streak = ghostStreak();
-    if (streak == 1) score += 200;
-    else if (streak == 2) score += 400;
-    else if (streak == 3) score += 800;
-    else if (streak == 4) score += 1600;
-
+    (++ghostEat) %= 4;
+    switch (ghostEat) {
+        case 0: score += 200; break;
+        case 1: score += 400; break;
+        case 2: score += 800; break;
+        case 3: score += 1600; break;
+    }
     ghostEatPosX = ghostAtTileX;
     ghostEatPosY = ghostAtTileY;
 }

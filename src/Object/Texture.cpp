@@ -160,7 +160,7 @@ void Texture::renderGhostTexture(SDL_Renderer* &renderer, int posX, int posY, in
     SDL_RenderCopy(renderer, characterTexture, &srcRect, &dsRect);
 }
 
-void Texture::renderGhostScore(SDL_Renderer* &renderer, const int eatenGhostPosX, const int eatenGhostPosY, const int eatenGhostStreak) {
+void Texture::renderGhostScore(SDL_Renderer* &renderer, int eatenGhostPosX, int eatenGhostPosY, int eatenGhostStreak) {
     SDL_Rect srcRect, dsRect;
     switch (eatenGhostStreak) {
         case 0: srcRect = { 0,  0, 50, 50}; break;
