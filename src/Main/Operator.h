@@ -13,6 +13,7 @@
 #include "../Manage/LogStat.h"
 #include "../Manage/GameItemManage.h"
 #include "../Manage/SoundManage.h"
+#include "../Manage/TickManage.h"
 
 class Operator {
     private:
@@ -28,6 +29,7 @@ class Operator {
         SDL_Texture* ready;
         GameItemManage* itemManage;
         SoundManage* soundManage;
+        TickManage* tickManage;
     public:
 
         static const int UP = 0;

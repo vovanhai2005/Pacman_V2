@@ -44,24 +44,11 @@ bool Ghost::isScattering(){
 }
 
 void Ghost::makeFrighten(bool stat){
-    if (lock) return;
+    if (Lock()) return; 
     if (frighten != stat) getPosFromTile();
     frighten = stat;
-    if (stat){
-        switch(ghostDir){
-            case UP:
-                ghostDir = DOWN;
-                break;
-            case DOWN:
-                ghostDir = UP;
-                break;
-            case RIGHT:
-                ghostDir = LEFT;
-                break;
-            case LEFT:
-                ghostDir = RIGHT;
-                break;
-        } 
+    if (stat) {
+        ghostDir = (ghostDir + 2) % 4;
         accelerate = 1;
     }
 }

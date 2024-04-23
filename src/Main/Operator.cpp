@@ -24,6 +24,7 @@ void Operator::init(SDL_Renderer *&renderer)
     objectTexture = new Texture();
     soundManage = new SoundManage();
     itemManage = new GameItemManage();
+    tickManage = new TickManage();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
     soundManage -> initSound();
@@ -48,11 +49,16 @@ void Operator::gameOperate()
 
 void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType)
 {
-    // std::cout << ghost -> getNextTileX() << std::endl;
-    // std::cout << ghost -> getPosX() << std::endl;
-    // std::cout << ghost -> getPosY() << std::endl;
-    // std::cout << ghost -> getGhostDir() << std::endl;
-    objectTexture -> renderGhostTexture(renderer, ghost -> getPosX(), ghost -> getPosY(), ghostType, ghost -> getGhostDir());
+    int ghostPosX = ghost -> getPosX();
+    int ghostPosY = ghost -> getPosY();
+    int ghostDir = ghost -> getGhostDir();
+    
+    if (ghost -> isDead())
+        objectTexture -> renderGhostTexture(renderer , ghostPosX , ghostPosY , Texture::GHOST_DEAD, ghostDir);
+    else if (ghost -> isFrighten()) {
+        objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, Texture::BLUE_SCARED);
+    }
+    else objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, ghostDir);
 }
 
 void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
@@ -135,6 +141,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
 
 void Operator::render(SDL_Renderer *&renderer)
 {
+    tickManage -> stablizeFPS();    
     // Render map
     SDL_Rect dsRect;
     for (int i = 0; i < 28; ++i)
@@ -165,6 +172,7 @@ void Operator::render(SDL_Renderer *&renderer)
 
 void Operator::inLoop()
 {
+    tickManage -> update();
     int pacmanTileX = pacman -> getTileX();
     int pacmanTileY = pacman -> getTileY();
     int pacmanPosX = pacman -> getPosX();
@@ -195,7 +203,29 @@ void Operator::inLoop()
     if (coinType != 0){
         itemManage -> eatCoins(coinType);
         soundManage -> loadingSound(SoundManage::EAT_COIN);
+        if (coinType == GameItemManage::bigCoin){
+            tickManage -> makeFrightenTime();
+            soundManage -> loadingSound(SoundManage::GHOST_TURN_BLUE);
+            if (!blinky->isDead()) blinky -> makeFrighten(true);
+            if (!pinky ->isDead()) pinky  -> makeFrighten(true);
+            if (!inky  ->isDead()) inky   -> makeFrighten(true);
+            if (!clyde ->isDead()) clyde  -> makeFrighten(true);
+        }
     }
+
+    if (!tickManage->isFrightenTime()) {
+        soundManage->loadingSound(SoundManage::NORMAL_GHOST);
+        blinky->makeFrighten(false);
+        pinky ->makeFrighten(false);
+        inky  ->makeFrighten(false);
+        clyde ->makeFrighten(false);
+    }
+
+    bool scatter = tickManage -> isScatteringTime();
+    blinky->makeScattering(scatter);
+    pinky ->makeScattering(scatter);
+    inky  ->makeScattering(scatter);
+    clyde ->makeScattering(scatter);
 
     pacman -> goIntoTunnel();
     
