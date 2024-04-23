@@ -45,9 +45,9 @@ void Operator::gameOperate()
     pinky = new Ghost(13, 14, true);
     inky = new Ghost(11, 14, true);
     clyde = new Ghost(15, 14, true);
-    soundManager -> loadingSound(SoundManage::START);
-    tickManager -> resetTick(itemManage -> getLevel());
-    tickManager -> pauseTick(true);
+    soundManage -> loadingSound(SoundManage::START);
+    tickManage -> resetTick(itemManage -> getLevel());
+    tickManage -> pauseTick(true);
 }
 
 void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType)
