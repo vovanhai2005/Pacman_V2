@@ -51,23 +51,28 @@ void Operator::init(SDL_Renderer *&renderer)
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
     soundManage -> initSound();
+    SDL_Surface* image = IMG_Load("assets/All Image/ready.png");
+    ready = SDL_CreateTextureFromSurface(renderer , image);
+    SDL_FreeSurface(image);
+    image = IMG_Load("assets/All Image/next_level.png");
+    nextLevel = SDL_CreateTextureFromSurface(renderer , image);
+    SDL_FreeSurface(image);
 }
 
 void Operator::gameOperate()
 {
     map -> reset();
+    itemManage -> resetGameItem();
     delete pacman;
-    delete blinky;
-    delete pinky;
-    delete inky;
-    delete clyde;
-    delete apple;
     pacman = new Pacman();
-    blinky = new Ghost(13, 11, false);
-    // std::cout << blinky -> getNextTileX() << " " << blinky -> getNextTileY() << std::endl;
-    pinky = new Ghost(13, 14, true);
-    inky = new Ghost(11, 14, true);
-    clyde = new Ghost(15, 14, true);
+    delete blinky;
+    blinky = new Ghost(((itemManage->getLevel() < 5) ? 13 : 12) , 11, false);
+    delete pinky;
+    pinky  = new Ghost(13, 14, true);
+    delete inky;
+    inky   = new Ghost(11, 14, true);
+    delete clyde;
+    clyde  = new Ghost(15, 14, true);
     soundManage -> loadingSound(SoundManage::START);
     tickManage -> resetTick(itemManage -> getLevel());
     tickManage -> pauseTick(true);
@@ -80,7 +85,7 @@ void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType
     int ghostDir = ghost -> getGhostDir();
     
     if (ghost -> isDead())
-        objectTexture -> renderGhostTexture(renderer , ghostPosX , ghostPosY , Texture::GHOST_DEAD, ghostDir);
+        objectTexture -> renderGhostTexture(renderer , ghostPosX , ghostPosY , Texture::GHOST_DEAD , ghostDir);
     else if (ghost -> isFrighten()) {
         objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, Texture::BLUE_SCARED);
     }
@@ -184,6 +189,10 @@ void Operator::render(SDL_Renderer *&renderer)
         renderGhost(renderer, pinky, Texture::PINKY);
         renderGhost(renderer, inky, Texture::INKY);
         renderGhost(renderer, clyde, Texture::CLYDE);
+        if (Mix_Playing(2)) {
+            dsRect = {441 - 82, 285 - 15 - 7, 164, 30};
+            SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
+        }
     }
     if (pacman -> isDead()) {
         if (objectTexture -> pacmanIsDead()) {
@@ -192,10 +201,10 @@ void Operator::render(SDL_Renderer *&renderer)
         else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
     }
     else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
-        // if (waitTime > 0) {
-        //     dsRect = {441 - 97, 248 - 52, 194, 104};
-        //     SDL_RenderCopy(renderer, nextLevel, nullptr, &dsRect);
-        // }
+    if (timeToNextLevel > 0) {
+        dsRect = {441 - 97, 248 - 52, 194, 104};
+        SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
+    }
     if (Mix_Playing(4)) objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
     soundManage -> playSound();
 }
@@ -203,10 +212,13 @@ void Operator::render(SDL_Renderer *&renderer)
 void Operator::inLoop()
 {
     if (itemManage -> coinClear()) {
-        itemManage -> nextLevel();
-        tickManage -> resetTick(itemManage -> getLevel());
-        resetObject();
-        map -> reset();
+        if (timeToNextLevel > 0) timeToNextLevel--;
+        else {
+            itemManage -> nextLevel();
+            tickManage -> resetTick(itemManage -> getLevel());
+            resetObject();
+            map -> reset();
+        }
         return;
     }
     if (Mix_Playing(2) || Mix_Playing(4)) {
@@ -283,7 +295,7 @@ void Operator::inLoop()
         if (blinky -> isDead())
             blinky -> markDestination(13, 11);
         else if (!blinky -> isScattering())
-            blinky -> markDestination(pacmanTileX, pacmanTileY);
+            blinky -> markDestination(pacmanTileX , pacmanTileY);
         else blinky -> markDestination(Ghost::BLINKY_CORNER_TILE_X, Ghost::BLINKY_CORNER_TILE_Y);
 
         if (pinky -> isDead())
@@ -330,7 +342,10 @@ void Operator::inLoop()
 
     itemManage -> ghostStart(pinky, inky, clyde);
 
-    if (itemManage -> coinClear()) soundManage -> loadingSound(SoundManage::NEXT_LEVEL);
+    if (itemManage -> coinClear()){
+        soundManage -> loadingSound(SoundManage::NEXT_LEVEL);
+        timeToNextLevel = 120;
+    }
 }
 
 void Operator::ghostAI(Ghost* &ghostID){

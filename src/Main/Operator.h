@@ -30,6 +30,7 @@ class Operator {
         GameItemManage* itemManage;
         SoundManage* soundManage;
         TickManage* tickManage;
+        int timeToNextLevel;    
 
     public:
 

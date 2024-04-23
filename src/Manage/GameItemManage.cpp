@@ -51,7 +51,7 @@ void GameItemManage::eatCoins(int coinType){
         ghostEat = 0;
         score += 150;
     }
-    std::cout << coinsEat << std::endl;
+    std::cout << score << " " << std::endl;
 }
 
 int GameItemManage::remainCoins(){
