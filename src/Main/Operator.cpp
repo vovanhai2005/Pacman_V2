@@ -18,6 +18,29 @@ Operator::Operator()
     objectTexture = NULL;
 }
 
+Operator::~Operator(){
+    delete map;
+    map = NULL;
+    delete pacman;
+    pacman = NULL;
+    delete blinky;
+    blinky = NULL;
+    delete pinky;
+    pinky = NULL;
+    delete inky;
+    inky = NULL;
+    delete clyde;
+    clyde = NULL;
+    delete apple;
+    apple = NULL;
+    SDL_DestroyTexture(nextLevel);
+    nextLevel = NULL;
+    SDL_DestroyTexture(ready);
+    ready = NULL;
+    delete objectTexture;
+    objectTexture = NULL;
+}
+
 void Operator::init(SDL_Renderer *&renderer)
 {
     map = new Map();
@@ -387,12 +410,18 @@ void Operator::ghostAI(Ghost* &ghostID){
         }
     }
     ghostID -> goIntoTunnel();
+    if (ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
+        if (ghostID -> isDead()) {
+            ghostID -> setDead(false);
+            soundManage -> loadingSound(SoundManage::RELIFE_GHOST);
+        }
+    }
     checkCollision(ghostID);
 }
 
 void Operator::checkCollision(Ghost* &ghostID){
     if (ghostID -> isDead()) return;
-    int dist = sqr((pacman -> getPosX() - ghostID -> getPosX())) + sqr((pacman->getPosY() - ghostID->getPosY()));
+    int dist = sqr((pacman -> getPosX() - ghostID -> getPosX())) + sqr((pacman -> getPosY() - ghostID->getPosY()));
     if (dist <= 9){
         if (ghostID -> isFrighten()) {
             itemManage -> eatGhost(ghostID -> getPosX(), ghostID -> getPosY());
@@ -424,7 +453,3 @@ void Operator::resetObject(){
     soundManage -> reset();
     tickManage -> pauseTick(false);
 }
-
-// void Operator::printf(){
-//     std::cout << pacman -> size().first << " " << pacman -> size().second << '\n';
-// }

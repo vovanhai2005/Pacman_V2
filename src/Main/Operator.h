@@ -40,28 +40,7 @@ class Operator {
 
         Operator();
 
-        ~Operator() {
-            delete map;
-            map = NULL;
-            delete pacman;
-            pacman = NULL;
-            delete blinky;
-            blinky = NULL;
-            delete pinky;
-            pinky = NULL;
-            delete inky;
-            inky = NULL;
-            delete clyde;
-            clyde = NULL;
-            delete apple;
-            apple = NULL;
-            SDL_DestroyTexture(nextLevel);
-            nextLevel = NULL;
-            SDL_DestroyTexture(ready);
-            ready = NULL;
-            delete objectTexture;
-            objectTexture = NULL;
-        }
+        ~Operator();
 
         void init(SDL_Renderer* &renderer);
 
@@ -84,7 +63,6 @@ class Operator {
         void checkCollision(Ghost* &ghostID);
 
         void resetObject();
-        
-        // void printf();
+
 };
 #endif
