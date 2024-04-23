@@ -32,8 +32,8 @@ void SoundManage::initSound()
     sound[DEAD] = Mix_LoadWAV("assets/Sound/dead.wav");
     sound[NEXT_LEVEL] = Mix_LoadWAV("assets/Sound/next level.wav");
 
-    // Mix_PlayChannel(1, sound[MOVE_0], -1);
-    // Mix_Pause(1);
+    Mix_PlayChannel(1, sound[MOVE_0], -1);
+    Mix_Pause(1);
 
     Mix_PlayChannel(3, sound[EAT_COIN], -1);
     Mix_Pause(3);
@@ -97,10 +97,10 @@ void SoundManage::playSound()
         dead = false;
     }
     if (Mix_Playing(2)) return;
-    // if (move != lastMove) {
-    //     Mix_PlayChannel(1, sound[move], -1);
-    //     lastMove = move;
-    // }
+    if (move != lastMove) {
+        Mix_PlayChannel(1, sound[move], -1);
+        lastMove = move;
+    }
     if (eatCoin > 0) {
         --eatCoin;
         Mix_Resume(3);
