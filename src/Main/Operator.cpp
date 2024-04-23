@@ -163,16 +163,29 @@ void Operator::render(SDL_Renderer *&renderer)
         renderGhost(renderer, clyde, Texture::CLYDE);
     }
     if (pacman -> isDead()) {
-        objectTexture -> renderPacmanTexture(renderer, pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
+        if (objectTexture -> pacmanIsDead()) {
+            if (itemManage -> getLife() > 0) resetObject();    
+        }
+        else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
     }
-    else objectTexture -> renderPacmanTexture(renderer, pacman -> getPosX(), pacman -> getPosY(), dir);
-    // std::cout << pacman -> size() << std::endl;
+    else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
+        // if (waitTime > 0) {
+        //     dsRect = {441 - 97, 248 - 52, 194, 104};
+        //     SDL_RenderCopy(renderer, nextLevel, nullptr, &dsRect);
+        // }
+    if (Mix_Playing(4)) objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
     soundManage -> playSound();
-
 }
 
 void Operator::inLoop()
 {
+    if (itemManage -> coinClear()) {
+        itemManage -> nextLevel();
+        tickManage -> resetTick(itemManage -> getLevel());
+        resetObject();
+        map -> reset();
+        return;
+    }
     if (Mix_Playing(2) || Mix_Playing(4)) {
         if (Mix_Playing(2)) tickManage->pauseTick(true);
         return;
@@ -207,11 +220,10 @@ void Operator::inLoop()
     else if (remainCoin < 100) soundManage -> loadingSound(SoundManage::MOVE_2);
     else if (remainCoin < 150) soundManage -> loadingSound(SoundManage::MOVE_1);
     else soundManage -> loadingSound(SoundManage::MOVE_0);
-
+    // Eat coin
     pacmanTileX = pacman -> getTileX();
     pacmanTileY = pacman -> getTileY();
     int typeOfCoin = map -> coinCollected(pacmanTileX, pacmanTileY);
-
     if (typeOfCoin) {
         itemManage -> eatCoins(typeOfCoin);
         soundManage -> loadingSound(SoundManage::EAT_COIN);
@@ -224,6 +236,7 @@ void Operator::inLoop()
             if (!clyde -> isDead()) clyde -> makeFrighten(true);
         }
     }
+    // Set frighten time
     if (!tickManage -> isFrightenTime()) {
         soundManage -> loadingSound(SoundManage::NORMAL_GHOST);
         blinky -> makeFrighten(false);
@@ -231,11 +244,11 @@ void Operator::inLoop()
         inky   -> makeFrighten(false);
         clyde  -> makeFrighten(false);
     }
-    bool scatter = tickManage -> isScatteringTime();
-    blinky -> makeScattering(scatter);
-    pinky  -> makeScattering(scatter);
-    inky   -> makeScattering(scatter);
-    clyde  -> makeScattering(scatter);
+    // Add scattering time
+    blinky -> makeScattering(tickManage -> isScatteringTime());
+    pinky  -> makeScattering(tickManage -> isScatteringTime());
+    inky   -> makeScattering(tickManage -> isScatteringTime());
+    clyde  -> makeScattering(tickManage -> isScatteringTime());
 
     pacmanPosX = pacman -> getPosX();
     pacmanPosY = pacman -> getPosY();
