@@ -82,6 +82,8 @@ class Operator {
         }
 
         void checkCollision(Ghost* &ghostID);
+
+        void resetObject();
         
         // void printf();
 };
