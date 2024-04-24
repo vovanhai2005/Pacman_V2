@@ -24,8 +24,6 @@ class TextManage{
 
         ~TextManage();
 
-        int getTextWidth();
-
         void loadRenderText(SDL_Renderer* &renderer, std::string text, SDL_Color textColor);
 
         void renderText(SDL_Renderer* &renderer, int x, int y, const int type);

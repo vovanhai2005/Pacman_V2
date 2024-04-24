@@ -13,28 +13,20 @@ TextManage::TextManage(int size)
 }
 TextManage::~TextManage()
 {
-    if (font != nullptr)
-    {
+    if (font != nullptr){
         TTF_CloseFont(font);
         font = nullptr;
     }
 
-    if (textTexture != nullptr)
-    {
+    if (textTexture != nullptr){
         SDL_DestroyTexture(textTexture);
         textTexture = nullptr;
     }
 
-    if (textSurface != nullptr)
-    {
+    if (textSurface != nullptr){
         SDL_FreeSurface(textSurface);
         textSurface = nullptr;
     }
-}
-
-int TextManage::getTextWidth()
-{
-    return textSurface->w;
 }
 
 void TextManage::loadRenderText(SDL_Renderer *&renderer, std::string text, SDL_Color textColor)
