@@ -63,11 +63,14 @@ void Game::runGame()
     ope -> init(renderer);
     ope -> gameOperate();
     while (gameRunning)
-    {
-        while (SDL_PollEvent(&e) != 0)
+    {   
+        if (ope -> getTimeLevel() == 0)
         {
-            if (e.type == SDL_QUIT) gameRunning = false;
-            else ope -> makingEvent(e , renderer);
+            while (SDL_PollEvent(&e) != 0)
+            {
+                if (e.type == SDL_QUIT) gameRunning = false;
+                else ope -> makingEvent(e , renderer);
+            }
         }
         // Clear renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

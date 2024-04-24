@@ -60,6 +60,10 @@ class Operator {
 
         void render(SDL_Renderer* &renderer);
 
+        int getTimeLevel(){
+            return timeToNextLevel;
+        }
+
 };
 
 #endif // _ENGINE_H_
