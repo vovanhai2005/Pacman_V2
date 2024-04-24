@@ -22,8 +22,8 @@ GameItemManage::GameItemManage(SDL_Renderer* &renderer) {
     levelText->loadRenderText(renderer, "Level: 1", {255, 255, 255, 255});
     playerName = new TextManage(20);
     playerName->loadRenderText(renderer, player.c_str(), {255, 255, 255, 255});
-    egBoard = loadImage(renderer, "Source/Assets/Menu Image/endgame.png");
-    hsBoard = loadImage(renderer, "Source/Assets/Menu Image/newHighscore.png");
+    egBoard = loadImage(renderer, "assets/All Image/endgame.png");
+    hsBoard = loadImage(renderer, "assets/All Image/newHighscore.png");
     yesButton = new Button(70, 30, 478, 250); 
     yesButton->loadButton(renderer, "Yes"); 
     yesButton->setStatus(Button::BUTTON_IN);
