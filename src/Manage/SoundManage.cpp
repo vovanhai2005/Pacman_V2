@@ -50,20 +50,20 @@ void SoundManage::loadingSound(const int soundID) {
 }
 
 void SoundManage::initSound() {
-    soundEffect[ MOVE_0 ] = Mix_LoadWAV("Source/Assets/Sound/move 0.wav");
-    soundEffect[ MOVE_1 ] = Mix_LoadWAV("Source/Assets/Sound/move 1.wav");
-    soundEffect[ MOVE_2 ] = Mix_LoadWAV("Source/Assets/Sound/move 2.wav");
-    soundEffect[ MOVE_3 ] = Mix_LoadWAV("Source/Assets/Sound/move 3.wav");
-    soundEffect[ START  ] = Mix_LoadWAV("Source/Assets/Sound/start.wav");
-    soundEffect[ DEAD   ] = Mix_LoadWAV("Source/Assets/Sound/dead2.wav");
-    soundEffect[ NEXT_LEVEL ] = Mix_LoadWAV("Source/Assets/Sound/next level.wav");
-    soundEffect[ EAT_COIN ] = Mix_LoadWAV("Source/Assets/Sound/eat dot.wav");
-    soundEffect[ EAT_GHOST ] = Mix_LoadWAV("Source/Assets/Sound/eat ghost.wav");
-    soundEffect[ GHOST_HOME ] = Mix_LoadWAV("Source/Assets/Sound/ghost go home.wav");
-    soundEffect[ GHOST_TURN_BLUE ] = Mix_LoadWAV("Source/Assets/Sound/ghost turn blue.wav");
+    soundEffect[MOVE_0] = Mix_LoadWAV("assets/Sound/move_0.wav");
+    soundEffect[MOVE_1] = Mix_LoadWAV("assets/Sound/move_1.wav");
+    soundEffect[MOVE_2] = Mix_LoadWAV("assets/Sound/move_2.wav");
+    soundEffect[MOVE_3] = Mix_LoadWAV("assets/Sound/move_3.wav");
+    soundEffect[START] = Mix_LoadWAV("assets/Sound/start.wav");
+    soundEffect[EAT_COIN] = Mix_LoadWAV("assets/Sound/eat_coin.wav");
+    soundEffect[EAT_GHOST] = Mix_LoadWAV("assets/Sound/eat_ghost.wav");
+    soundEffect[GHOST_TURN_BLUE] = Mix_LoadWAV("assets/Sound/ghost_turn_blue.wav");
+    soundEffect[GHOST_HOME] = Mix_LoadWAV("assets/Sound/ghost_go_home.wav");
+    soundEffect[DEAD] = Mix_LoadWAV("assets/Sound/dead.wav");
+    soundEffect[NEXT_LEVEL] = Mix_LoadWAV("assets/Sound/next level.wav");
 
     for (int i = 0; i < 11; ++i) if (soundEffect == nullptr)
-        Console->Status( Mix_GetError() );
+        std::cout << "Error at: " << i << std::endl; 
 
     /*
         8 channels

@@ -31,8 +31,9 @@ class GameItemManage {
         int CLYDE_COIN_OUT;
 
         TextManage *levelText;
-        TextManage *liveText;
+        TextManage *livesText;
         TextManage *scoreText;
+
         TextManage *playerName;
 
         SDL_Texture *egBoard;
@@ -84,12 +85,12 @@ class GameItemManage {
 
         int remainCoins();
 
-        void renderHUD(SDL_Renderer* &renderer);
+        void renderInfoInGame(SDL_Renderer* &renderer);
 
-        void handleEGBoard(SDL_Event &e);
+        // void handleEGBoard(SDL_Event &e);
 
-        void runEGBoard(SDL_Renderer* &renderer);
+        // void runEGBoard(SDL_Renderer* &renderer);
 
-        int getPlayerDecision();
+        // int getPlayerDecision();
 };
 #endif 

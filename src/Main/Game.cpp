@@ -3,7 +3,6 @@
 #include <fstream>
 
 #include "Game.h"
-#include "Operator.h"
 
 Game::Game()
 {
@@ -45,6 +44,9 @@ void Game::initSDL()
                 Console -> Status("Mixer error!");
             }
             else Console -> Status("Mixer Ready");
+
+            if (TTF_Init() < 0) Console->Status( TTF_GetError() );
+            else Console->Status("TTF Ready!");
 
             std::ifstream inFILE("score.txt");
             std::string st;
@@ -98,5 +100,5 @@ void Game::quitSDL()
     revFILE.close();
     SDL_Quit();
     Mix_Quit();
-    // TTF_Quit();
+    TTF_Quit();
 }

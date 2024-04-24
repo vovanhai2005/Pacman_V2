@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _SOUNDMANAGER_H_
-#define _SOUNDMANAGER_H_
+#ifndef _SOUNDMANAGE_H_
+#define _SOUNDMANAGE_H_
 
 #include <SDL_mixer.h>
 #include <vector>
@@ -14,7 +14,6 @@ class SoundManage {
         bool ghostGoHome;
         int eatDotTime;
         int oldMoveType, newMoveType;
-        LogStatus* Console = new LogStatus("Sound Manager");
         Mix_Chunk* soundEffect[11];
     public:
         static const int MOVE_0 = 0;
@@ -45,4 +44,4 @@ class SoundManage {
         void reset();
 };
 
-#endif // _SOUNDMANAGER_H_
+#endif // _SOUNDMANAGE_H_

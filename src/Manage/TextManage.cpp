@@ -34,7 +34,6 @@ void TextManage::loadRenderText(SDL_Renderer* &renderer, std::string text, SDL_C
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 }
 
-
 void TextManage::renderText(SDL_Renderer* &renderer, int scrPosX, int scrPosY, const int type) {
     dsRect = {scrPosX, scrPosY, textSurface->w, textSurface->h};
     if (type == CENTER) {
@@ -43,4 +42,5 @@ void TextManage::renderText(SDL_Renderer* &renderer, int scrPosX, int scrPosY, c
     }
     SDL_RenderCopy(renderer, textTexture, nullptr, &dsRect);
 }
+
 

@@ -4,12 +4,12 @@
 
 GameItemManage::GameItemManage(SDL_Renderer* &renderer) {
     level = 1;
-    life = 5;
+    life = 3;
     coinsEat = 0;
     ghostEat = -1;
     score = 0;
     PINKY_COIN_OUT = 5;
-    PINKY_COIN_OUT = 30;
+    INKY_COIN_OUT = 30;
     CLYDE_COIN_OUT = 90;
 }
 
@@ -31,7 +31,7 @@ void GameItemManage::resetGameItem() {
     coinsEat = 0;
     ghostEat = -1;
     PINKY_COIN_OUT = 5;
-    PINKY_COIN_OUT = 30;
+    INKY_COIN_OUT = 30;
     CLYDE_COIN_OUT = 90;
     pos = -1;
 }
@@ -83,15 +83,15 @@ void GameItemManage::nextLevel() {
     ghostEat = -1;
     if (level <= 3) {
         PINKY_COIN_OUT = 5;
-        PINKY_COIN_OUT = 30;
+        INKY_COIN_OUT = 30;
         CLYDE_COIN_OUT = 90;
     }
     else if (level <= 5) {
         PINKY_COIN_OUT = 0;
-        PINKY_COIN_OUT  = 5;
+        INKY_COIN_OUT  = 5;
         CLYDE_COIN_OUT = 10;
     }
-    else PINKY_COIN_OUT = PINKY_COIN_OUT = CLYDE_COIN_OUT = 0;
+    else PINKY_COIN_OUT = INKY_COIN_OUT = CLYDE_COIN_OUT = 0;
 }
 
 bool GameItemManage::coinClear() {
@@ -105,7 +105,7 @@ int GameItemManage::getLevel() {
 
 void GameItemManage::ghostStart(Ghost* &pinky, Ghost* &inky, Ghost* &clyde) {
     if (pinky->Lock() && coinsEat >= PINKY_COIN_OUT) pinky->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
-    if (inky ->Lock() && coinsEat >=  PINKY_COIN_OUT) inky ->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
+    if (inky ->Lock() && coinsEat >= INKY_COIN_OUT) inky ->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
     if (clyde->Lock() && coinsEat >= CLYDE_COIN_OUT) clyde->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
 }
 
@@ -114,63 +114,63 @@ int GameItemManage::remainCoins() {
     return 244 - coinsEat;
 }
 
-void GameItemManage::renderHUD(SDL_Renderer* &renderer) {
+void GameItemManage::renderInfoInGame(SDL_Renderer* &renderer) {
     levelText -> loadRenderText(renderer, "Level: " + std::to_string(level), {255, 255, 255, 255});
     levelText -> renderText(renderer , 0 , 0 , TextManage::LEFT);
-    liveText -> loadRenderText(renderer, "Life: " + std::to_string(life), {255, 255, 255, 255});
-    liveText -> renderText(renderer, 0, 50, TextManage::LEFT);
+    livesText -> loadRenderText(renderer, "Life: " + std::to_string(life), {255, 255, 255, 255});
+    livesText -> renderText(renderer, 0, 50, TextManage::LEFT);
     scoreText -> loadRenderText(renderer, "Scores: " + std::to_string(score), {255, 255, 255, 255});
     scoreText -> renderText(renderer, 0, 100, TextManage::LEFT);
 }
 
-void GameItemManage::handleEGBoard(SDL_Event &e) {
-    if (e.type == SDL_KEYDOWN)
-    {
-        Mix_PlayChannel(7, navigationSound, 0);
-        if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)
-        {
-            currentBut = 2;
-            noBut->setStatus(Button::BUTTON_IN);
-            yesBut->setStatus(Button::BUTTON_OUT);
-        }
-        else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT)
-        {
-            currentBut = 1;
-            yesBut->setStatus(Button::BUTTON_IN);
-            noBut->setStatus(Button::BUTTON_OUT);
-        }
-        else if (e.key.keysym.sym == SDLK_RETURN)
-        {
-            if (currentBut == 1)
-                playerDecision = AGAIN;
-            else
-                playerDecision = QUIT;
-        }
-        return;
-    }
-}
+// void GameItemManage::handleEGBoard(SDL_Event &e) {
+//     if (e.type == SDL_KEYDOWN)
+//     {
+//         Mix_PlayChannel(7, navigationSound, 0);
+//         if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)
+//         {
+//             currentBut = 2;
+//             noBut -> setStatus(Button::BUTTON_IN);
+//             yesBut -> setStatus(Button::BUTTON_OUT);
+//         }
+//         else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT)
+//         {
+//             currentBut = 1;
+//             yesBut->setStatus(Button::BUTTON_IN);
+//             noBut->setStatus(Button::BUTTON_OUT);
+//         }
+//         else if (e.key.keysym.sym == SDLK_RETURN)
+//         {
+//             if (currentBut == 1)
+//                 playerDecision = AGAIN;
+//             else
+//                 playerDecision = QUIT;
+//         }
+//         return;
+//     }
+// }
 
-void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
-    SDL_Rect dsRect = {441 - 250, 248 - 150, 500, 300};
-    SDL_RenderCopy(renderer, egBoard, nullptr, &dsRect);
-    yesBut->renderButton(renderer);
-    noBut ->renderButton(renderer);
-    if (newRecord) {
-        SDL_RenderCopy(renderer, hsBoard, nullptr, &dsRect);
-        static int caretTime = 0;
-        SDL_Rect caret = {395 + playerName->getTextWidth(), 265, 2, 20};
-        if (caretTime % 20 > 10) {
-            SDL_RenderFillRect(renderer, &caret);
-        }
-        ++caretTime;
-        caretTime %= 20;
-        if (playername != "") {
-            playerName->loadRenderText(renderer, playername.c_str(), {0, 0, 0, 255});
-            playerName->renderText(renderer, 395, 268, TextManage::LEFT);
-        }
-    }
-}
+// void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
+//     SDL_Rect dsRect = {441 - 250, 248 - 150, 500, 300};
+//     SDL_RenderCopy(renderer, egBoard, nullptr, &dsRect);
+//     yesBut->renderButton(renderer);
+//     noBut ->renderButton(renderer);
+//     if (newRecord) {
+//         SDL_RenderCopy(renderer, hsBoard, nullptr, &dsRect);
+//         static int caretTime = 0;
+//         SDL_Rect caret = {395 + playerName->getTextWidth(), 265, 2, 20};
+//         if (caretTime % 20 > 10) {
+//             SDL_RenderFillRect(renderer, &caret);
+//         }
+//         ++caretTime;
+//         caretTime %= 20;
+//         if (playername != "") {
+//             playerName->loadRenderText(renderer, playername.c_str(), {0, 0, 0, 255});
+//             playerName->renderText(renderer, 395, 268, TextManage::LEFT);
+//         }
+//     }
+// }
 
-int GameItemManage::getPlayerDecision(){
-    return playerDecision;
-}
+// int GameItemManage::getPlayerDecision(){
+//     return playerDecision;
+// }

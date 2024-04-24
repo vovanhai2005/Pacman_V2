@@ -4,11 +4,14 @@
 #define _GAME_H
 
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <stdio.h>
 #include <string>
 #include <vector>
 #include "../Manage/LogStatus.h"
 #include "../Object/Texture.h"
+#include "Operator.h"
 
 class Game
 {
