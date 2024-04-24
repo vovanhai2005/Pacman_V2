@@ -4,10 +4,6 @@ TextManage::TextManage(int size)
 {
     TTF_Init();
     font = TTF_OpenFont(FONT_NAME.c_str(), size);
-    if (font == nullptr)
-        std::cout << "Failed to load" << TTF_GetError() << std::endl;
-    else
-        std::cout << "TTF successful" << std::endl;
     textTexture = nullptr;
     textSurface = nullptr;
 }
@@ -45,4 +41,8 @@ void TextManage::renderText(SDL_Renderer *&renderer, int scrPosX, int scrPosY, c
         dsRect.y = scrPosY - textSurface->h / 2;
     }
     SDL_RenderCopy(renderer, textTexture, nullptr, &dsRect);
+}
+
+int TextManage::getTextWidth(){
+    return textSurface -> w;
 }

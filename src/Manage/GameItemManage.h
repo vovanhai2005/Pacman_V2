@@ -19,7 +19,7 @@ class GameItemManage {
         int ghostEat;
         int score;
         int pos = -1;
-        std::string playername = "";
+        std::string player = "";
         int playerDecision;
         int currentBut;
         bool newRecord = false;
@@ -38,8 +38,8 @@ class GameItemManage {
 
         SDL_Texture *egBoard;
         SDL_Texture *hsBoard;
-        Button *yesBut;
-        Button *noBut;
+        Button *yesButton;
+        Button *noButton;
         Mix_Chunk *navigationSound = Mix_LoadWAV("Source/Assets/Sound/button.wav");
 
     protected:
@@ -87,10 +87,10 @@ class GameItemManage {
 
         void renderInfoInGame(SDL_Renderer* &renderer);
 
-        // void handleEGBoard(SDL_Event &e);
+        void handleEGBoard(SDL_Event &e);
 
-        // void runEGBoard(SDL_Renderer* &renderer);
+        void runEGBoard(SDL_Renderer* &renderer);
 
-        // int getPlayerDecision();
+        int getPlayerDecision();
 };
 #endif 

@@ -92,10 +92,10 @@ void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType
 void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
 {
     if (Mix_Playing(2) || Mix_Playing(4)) return;
-    // if (pacman -> isDead()) {
-    //     if (runningEGBoard) itemManage -> handleEGBoard(e);
-    //     return;
-    // }
+    if (pacman -> isDead()) {
+        if (runningEGBoard) itemManage -> handleEGBoard(e);
+        return;
+    }
     if (e.type == SDL_KEYDOWN)
     {
         if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_s || e.key.keysym.sym == SDLK_w || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)
@@ -180,36 +180,35 @@ void Operator::render(SDL_Renderer *&renderer){
             objectTexture -> renderTileTexture(renderer , map -> getID(i , j), &dsRect);
         }
     }
-    // if (!runningEGBoard){
-    int dir = -1;
-    if (!pacman -> emptyDir()) dir = pacman -> getDir();
-    if (!pacman -> isDead()){
-        renderGhost(renderer , blinky , Texture::BLINKY);
-        renderGhost(renderer , pinky , Texture::PINKY);
-        renderGhost(renderer , inky , Texture::INKY);
-        renderGhost(renderer , clyde , Texture::CLYDE);
-        if (Mix_Playing(2)) {
-            dsRect = {441 - 100, 285 - 35, 200, 60};
-            SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
+    if (!runningEGBoard){
+        int dir = -1;
+        if (!pacman -> emptyDir()) dir = pacman -> getDir();
+        if (!pacman -> isDead()){
+            renderGhost(renderer , blinky , Texture::BLINKY);
+            renderGhost(renderer , pinky , Texture::PINKY);
+            renderGhost(renderer , inky , Texture::INKY);
+            renderGhost(renderer , clyde , Texture::CLYDE);
+            if (Mix_Playing(2) && !timeToNextLevel) {
+                dsRect = {441 - 100, 285 - 35, 200, 60};
+                SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
+            }
+            objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
         }
-        objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
-    }
-    else{
-        if(objectTexture -> pacmanIsDead()){
-            if (itemManage -> getLife() > 0) resetObject();    
+        else{
+            if(objectTexture -> pacmanIsDead()){
+                if (itemManage -> getLife() > 0) resetObject();    
+            }
+            else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
         }
-        else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
-    }
-    if (timeToNextLevel > 0) {
-        dsRect = {441 - 97, 248 - 52, 194, 104};
-        SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
-    }
-    if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
-    soundManage -> playSound();
-    // }
-    // if (runningEGBoard) itemManage->runEGBoard(renderer);
-    // else 
-    itemManage->renderInfoInGame(renderer); 
+        if (timeToNextLevel > 0) {
+            dsRect = {441 - 97, 248 - 52, 194, 104};
+            SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
+        }
+        if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
+        soundManage -> playSound();
+        }
+    if (runningEGBoard) itemManage->runEGBoard(renderer);
+    else itemManage->renderInfoInGame(renderer); 
 }
 
 void Operator::inLoop()
@@ -442,6 +441,7 @@ void Operator::ghostAI(Ghost* &ghostID){
         if (ghostID -> isDead()) {
             ghostID -> setDead(false);
             soundManage -> loadingSound(SoundManage::RELIFE_GHOST);
+            ghostID -> markDestination(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y);
         }
     }
     checkCollision(ghostID);

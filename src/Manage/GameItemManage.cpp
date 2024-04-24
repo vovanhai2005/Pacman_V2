@@ -11,13 +11,29 @@ GameItemManage::GameItemManage(SDL_Renderer* &renderer) {
     PINKY_COIN_OUT = 5;
     INKY_COIN_OUT = 30;
     CLYDE_COIN_OUT = 90;
-    levelText = new TextManage(24);
-    livesText = new TextManage(24);
-    scoreText = new TextManage(24);
+    player = "Unknown";
+    playerDecision = WAITING;
+    currentBut = 1;
+    livesText = new TextManage(28);
+    livesText->loadRenderText(renderer, "Lives:", {255, 255, 255, 255});
+    scoreText = new TextManage(28);
+    scoreText->loadRenderText(renderer, "Scores: 0", {255, 255, 255, 255});
+    levelText = new TextManage(28);
+    levelText->loadRenderText(renderer, "Level: 1", {255, 255, 255, 255});
+    playerName = new TextManage(20);
+    playerName->loadRenderText(renderer, player.c_str(), {255, 255, 255, 255});
+    egBoard = loadImage(renderer, "Source/Assets/Menu Image/endgame.png");
+    hsBoard = loadImage(renderer, "Source/Assets/Menu Image/newHighscore.png");
+    yesButton = new Button(70, 30, 478, 250); 
+    yesButton->loadButton(renderer, "Yes"); 
+    yesButton->setStatus(Button::BUTTON_IN);
+    noButton  = new Button(70, 30, 580, 250); 
+    noButton ->loadButton(renderer, "No");  
+    noButton ->setStatus(Button::BUTTON_OUT);
 }
 
 GameItemManage::~GameItemManage() {
-
+    
 }
 
 SDL_Texture* GameItemManage::loadImage(SDL_Renderer* &renderer, const std::string imagePath) {
@@ -29,7 +45,7 @@ SDL_Texture* GameItemManage::loadImage(SDL_Renderer* &renderer, const std::strin
 
 void GameItemManage::resetGameItem() {
     level = 1;
-    life = 5;
+    life = 3;
     score = 0;
     coinsEat = 0;
     ghostEat = -1;
@@ -124,58 +140,56 @@ void GameItemManage::renderInfoInGame(SDL_Renderer* &renderer) {
     livesText -> renderText(renderer, 0, 50, TextManage::LEFT);
     scoreText -> loadRenderText(renderer, "Scores: " + std::to_string(score), {255, 255, 255, 255});
     scoreText -> renderText(renderer, 0, 100, TextManage::LEFT);
-
-    // lỗi ở phần renderText anh ạ
 }
 
-// void GameItemManage::handleEGBoard(SDL_Event &e) {
-//     if (e.type == SDL_KEYDOWN)
-//     {
-//         Mix_PlayChannel(7, navigationSound, 0);
-//         if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)
-//         {
-//             currentBut = 2;
-//             noBut -> setStatus(Button::BUTTON_IN);
-//             yesBut -> setStatus(Button::BUTTON_OUT);
-//         }
-//         else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT)
-//         {
-//             currentBut = 1;
-//             yesBut->setStatus(Button::BUTTON_IN);
-//             noBut->setStatus(Button::BUTTON_OUT);
-//         }
-//         else if (e.key.keysym.sym == SDLK_RETURN)
-//         {
-//             if (currentBut == 1)
-//                 playerDecision = AGAIN;
-//             else
-//                 playerDecision = QUIT;
-//         }
-//         return;
-//     }
-// }
+void GameItemManage::handleEGBoard(SDL_Event &e) {
+    if (e.type == SDL_KEYDOWN)
+    {
+        Mix_PlayChannel(7, navigationSound, 0);
+        if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)
+        {
+            currentBut = 2;
+            noButton -> setStatus(Button::BUTTON_IN);
+            yesButton -> setStatus(Button::BUTTON_OUT);
+        }
+        else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT)
+        {
+            currentBut = 1;
+            yesButton->setStatus(Button::BUTTON_IN);
+            noButton->setStatus(Button::BUTTON_OUT);
+        }
+        else if (e.key.keysym.sym == SDLK_RETURN)
+        {
+            if (currentBut == 1)
+                playerDecision = AGAIN;
+            else
+                playerDecision = QUIT;
+        }
+        return;
+    }
+}
 
-// void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
-//     SDL_Rect dsRect = {441 - 250, 248 - 150, 500, 300};
-//     SDL_RenderCopy(renderer, egBoard, nullptr, &dsRect);
-//     yesBut->renderButton(renderer);
-//     noBut ->renderButton(renderer);
-//     if (newRecord) {
-//         SDL_RenderCopy(renderer, hsBoard, nullptr, &dsRect);
-//         static int caretTime = 0;
-//         SDL_Rect caret = {395 + playerName->getTextWidth(), 265, 2, 20};
-//         if (caretTime % 20 > 10) {
-//             SDL_RenderFillRect(renderer, &caret);
-//         }
-//         ++caretTime;
-//         caretTime %= 20;
-//         if (playername != "") {
-//             playerName->loadRenderText(renderer, playername.c_str(), {0, 0, 0, 255});
-//             playerName->renderText(renderer, 395, 268, TextManage::LEFT);
-//         }
-//     }
-// }
+void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
+    SDL_Rect dsRect = {441 - 250, 248 - 150, 500, 300};
+    SDL_RenderCopy(renderer, egBoard, nullptr, &dsRect);
+    yesButton->renderButton(renderer);
+    noButton ->renderButton(renderer);
+    if (newRecord) {
+        SDL_RenderCopy(renderer, hsBoard, nullptr, &dsRect);
+        static int caretTime = 0;
+        SDL_Rect caret = {395 + playerName->getTextWidth(), 265, 2, 20};
+        if (caretTime % 20 > 10) {
+            SDL_RenderFillRect(renderer, &caret);
+        }
+        ++caretTime;
+        caretTime %= 20;
+        if (player != "") {
+            playerName->loadRenderText(renderer, player.c_str(), {0, 0, 0, 255});
+            playerName->renderText(renderer, 395, 268, TextManage::LEFT);
+        }
+    }
+}
 
-// int GameItemManage::getPlayerDecision(){
-//     return playerDecision;
-// }
+int GameItemManage::getPlayerDecision(){
+    return playerDecision;
+}

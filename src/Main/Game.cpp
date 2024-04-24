@@ -60,11 +60,8 @@ void Game::runGame()
 {
     SDL_Event e;
     Operator* ope = new Operator();
-     cout << "pre Init renderer\n";
     ope -> init(renderer);
-    cout << "Init renderer\n";
     ope -> gameOperate();
-    cout << "Before running loop\n";
     while (gameRunning)
     {
         while (SDL_PollEvent(&e) != 0)
