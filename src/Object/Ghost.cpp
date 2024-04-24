@@ -2,87 +2,80 @@
 #include <random>
 #include <iostream>
 
-Ghost::Ghost(int tileX , int tileY , bool lock) : Object(tileX , tileY) {
-    frighten = false;
-    scattering = false;
+Ghost::Ghost(int tileX, int tileY, bool lock) : Object(tileX, tileY) {
+    frighten = 0;
     accelerate = 1;
     velocity = 2;
-    nextTileX = tileX;
-    nextTileY = tileY;
-    this -> lock = lock;
-    if (lock) ghostDir = UP;
-    else ghostDir = RIGHT;
+    scattering = false;
+    nextTileX = tileX, nextTileY = tileY;
+    this->lock = lock;
+    if (lock == false) ghostDir = RIGHT;
+    else ghostDir = UP;
 }
 
-
-int Ghost::getNextTileX(){
+int Ghost::getNextTileX() {
     return nextTileX;
 }
 
-int Ghost::getNextTileY(){
+int Ghost::getNextTileY() {
     return nextTileY;
 }
 
-int Ghost::getGhostDir(){
+int Ghost::getGhostDir() {
     return ghostDir;
 }
 
-void Ghost::setDir(int dir){
+void Ghost::setDir(int dir) {
     ghostDir = dir;
 }
 
-bool Ghost::Lock(){
-    return lock;
-}
-
-bool Ghost::isFrighten(){
-    return frighten;
-}
-
-bool Ghost::isScattering(){
-    return scattering;
-}
-
-void Ghost::makeFrighten(bool stat){
+void Ghost::makeFrighten(bool status) {
     if (Lock()) return; 
-    if (frighten != stat) getPosFromTile();
-    frighten = stat;
-    if (stat) {
+    if (frighten != status) getPosFromTile();
+    frighten = status;
+    if (status) {
         ghostDir = (ghostDir + 2) % 4;
         accelerate = 1;
     }
 }
 
-void Ghost::makeScattering(bool stat){
-    scattering = stat;
+void Ghost::makeScattering(bool status) {
+    scattering = status;
 }
 
-void Ghost::moving(){
-    int velX , velY , dir;
-    velX = velY = 0;
-    dir = -1;
-    if (accelerate == 1){
+bool Ghost::isScattering() {
+    return scattering;
+}
+
+bool Ghost::isFrighten() {
+    return frighten;
+}
+
+void Ghost::markDestination(int tileX , int tileY , int accelerate) {
+    this -> accelerate = accelerate;
+    nextTileX = tileX;
+    nextTileY = tileY;
+}
+
+void Ghost::moving() {
+    int velX, velY, dir;
+    velX = velY = 0; dir = -1;
+
+    if (accelerate == 1) {
         if (frighten) velocity = 1;
         else if (isDead()) velocity = 4;
         else velocity = 2;
     }
     else velocity = 4;
 
-    switch(ghostDir){
-        case UP: velY -= velocity; break;
-        case DOWN: velY += velocity; break;
-        case LEFT: velX -= velocity; break;
-        case RIGHT: velX += velocity; break;
+    switch (ghostDir) {
+        case UP:    velY -= velocity; dir = UP;    break;
+        case DOWN:  velY += velocity; dir = DOWN;  break;
+        case LEFT:  velX -= velocity; dir = LEFT;  break;
+        case RIGHT: velX += velocity; dir = RIGHT; break;
     }
-    dir = ghostDir;
-    changeDir(velX , velY , dir);
+    changeDir(velX, velY, dir);
     move();
-}
-
-void Ghost::markDestination(int tileX , int tileY , int acce){
-    this -> accelerate = acce;
-    nextTileX = tileX;
-    nextTileY = tileY;
 }
 
 void Ghost::ghostRespawn(const int tileX, const int tileY, const bool lock) {
@@ -93,4 +86,8 @@ void Ghost::ghostRespawn(const int tileX, const int tileY, const bool lock) {
         else ghostDir = RIGHT;
     }
     else ghostDir = UP;
+}
+
+bool Ghost::Lock() {
+    return lock;
 }

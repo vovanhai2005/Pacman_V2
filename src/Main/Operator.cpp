@@ -14,7 +14,6 @@ Operator::Operator()
     pinky = NULL;
     inky = NULL;
     clyde = NULL;
-    apple = NULL;
     objectTexture = NULL;
 }
 
@@ -31,8 +30,6 @@ Operator::~Operator(){
     inky = NULL;
     delete clyde;
     clyde = NULL;
-    delete apple;
-    apple = NULL;
     SDL_DestroyTexture(nextLevel);
     nextLevel = NULL;
     SDL_DestroyTexture(ready);
@@ -46,7 +43,7 @@ void Operator::init(SDL_Renderer *&renderer)
     map = new Map();
     objectTexture = new Texture();
     soundManage = new SoundManage();
-    itemManage = new GameItemManage();
+    itemManage = new GameItemManage(renderer);
     tickManage = new TickManage();
     objectTexture -> loadImageToTileTexture(renderer);
     objectTexture -> loadCharacterTexture(renderer);
@@ -92,7 +89,7 @@ void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType
     else objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, ghostDir);
 }
 
-void Operator::makingEvent(SDL_Event &e , SDL_Renderer *&renderer)
+void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
 {
     if (e.type == SDL_KEYDOWN)
     {

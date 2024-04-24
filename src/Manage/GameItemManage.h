@@ -9,23 +9,48 @@
 
 class GameItemManage {
     private:
-        int life;
         int level;
-        int score;
-        int coinsEat;
-        int ghostEat;
+        int life;
+        int eatenCoins;
+        int eatenGhost;
+        int scores;
+        int pos = -1;
+        std::string playername = "";
+        int playerDecision;
+        int currentBut;
         bool newRecord = false;
-        int ghostEatPosX , ghostEatPosY;
-    protected:
-        SDL_Texture* loadImage(SDL_Renderer* &renderer , std::string imagePath);
-    public:
-        static const int smallCoin = 26;
-        static const int bigCoin = 27;
-        int PINKY_COIN_OUT = 15;
-        int INKY_COIN_OUT = 50;
-        int CLYDE_COIN_OUT = 70;
+        int ghostEatenPosX;
+        int ghostEatenPosY;
 
-        GameItemManage();
+        int PINKY_COIN_LIMIT;
+        int INKY_COIN_LIMIT;
+        int CLYDE_COIN_LIMIT;
+
+        TextManager *levelText;
+        TextManager *liveText;
+        TextManager *scoreText;
+        TextManager *playerName;
+
+        SDL_Texture *egBoard;
+        SDL_Texture *hsBoard;
+        Button *yesBut;
+        Button *noBut;
+        Mix_Chunk *navigationSound = Mix_LoadWAV("Source/Assets/Sound/button.wav");
+
+    protected:
+        SDL_Texture *loadImage(SDL_Renderer *&renderer, const std::string imagePath);
+
+    public:
+        const int TOTAL_COINS = 244;
+        static const int normalCoin = 26;
+        static const int superCoin = 27;
+        static const int notCoin = 0;
+        static const int pauseGame = 1;
+        static const int AGAIN = 2;
+        static const int QUIT = 3;
+        static const int WAITING = 4;
+
+        GameItemManage(SDL_Renderer* &renderer);
 
         ~GameItemManage();
 
@@ -53,6 +78,6 @@ class GameItemManage {
 
         void nextLevel();
 
-        void ghostStart(Ghost* pinky , Ghost* inky , Ghost* clyde);
+        void ghostStart(Ghost* &pinky , Ghost* &inky , Ghost* &clyde);
 };
 #endif 

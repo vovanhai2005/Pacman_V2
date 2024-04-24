@@ -1,69 +1,65 @@
 #pragma once
 
-#ifndef _OPERATOR_H
-#define _OPERATOR_H
+#ifndef _ENGINE_H_
+#define _ENGINE_H_
 
 #include <SDL.h>
-#include <SDL_Mixer.h>
+#include <SDL_mixer.h>
 #include "../Map/Map.h"
 #include "../Object/Pacman.h"
 #include "../Object/Ghost.h"
 #include "../Object/Item.h"
 #include "../Object/Texture.h"
-#include "../Manage/LogStat.h"
+#include "../Manage/TickManage.h"
 #include "../Manage/GameItemManage.h"
 #include "../Manage/SoundManage.h"
-#include "../Manage/TickManage.h"
 
 class Operator {
     private:
         Map* map;
-        Pacman* pacman = NULL;
-        Ghost* blinky = NULL;
-        Ghost* pinky = NULL;
-        Ghost* inky = NULL;
-        Ghost* clyde = NULL;
-        Item* apple;
+        Pacman* pacman = nullptr;
+        Ghost* blinky = nullptr;
+        Ghost* pinky = nullptr;
+        Ghost* inky = nullptr;
+        Ghost* clyde = nullptr;
+        Ghost* greendy = nullptr;
+        Ghost* friendy = nullptr;
         Texture* objectTexture;
-        SDL_Texture* nextLevel;
-        SDL_Texture* ready;
+        TickManage* tickManage;
         GameItemManage* itemManage;
         SoundManage* soundManage;
-        TickManage* tickManage;
-        int timeToNextLevel;    
-
-    public:
-
-        static const int UP = 0;
-        static const int RIGHT = 1;
-        static const int DOWN = 2;
-        static const int LEFT = 3;
-
-        Operator();
-
-        ~Operator();
-
-        void init(SDL_Renderer* &renderer);
-
-        void gameOperate();
-
-        void renderGhost(SDL_Renderer* &renderer , Ghost* &ghost , int ghostType);
-
-        void makingEvent(SDL_Event &e , SDL_Renderer* &renderer);
-
-        void render(SDL_Renderer* &renderer);
-
-        void inLoop();
-
-        void ghostAI(Ghost* &ghostID);
+        SDL_Texture* nextLevel;
+        SDL_Texture* ready;
+        bool runningEGBoard = false;
+        bool eatGreenApple = false;
+        int timeToNextLevel = 0;
 
         int sqr(int x){
             return x * x;
         }
+    protected:
+        void resetObject();
+
+        void ghostAI(Ghost* &ghostID);
 
         void checkCollision(Ghost* &ghostID);
 
-        void resetObject();
+        void renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType);
+    public:
+        Operator();
+
+        ~Operator();
+
+        void gameOperate();
+
+        void init(SDL_Renderer* &renderer);
+
+        void makingEvent(SDL_Event &e , SDL_Renderer* &renderer);
+
+        void inLoop();
+
+        void render(SDL_Renderer* &renderer);
 
 };
-#endif
+
+#endif // _ENGINE_H_
