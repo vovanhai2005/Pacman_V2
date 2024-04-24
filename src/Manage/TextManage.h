@@ -15,7 +15,18 @@ class TextManage{
         SDL_Surface* textSurface;
 
     public:
-        TextManage();
+        const std::string FONT_NAME = "assets/Font/Blogger Sans-Bold.ttf";
+        static const int CENTER = 0;
+        static const int LEFT = 1;
+
+        TextManage(int size);
 
         ~TextManage();
-}
+
+        int getTextWidth();
+
+        void loadRenderText(SDL_Renderer* &renderer, std::string text, SDL_Color textColor);
+
+        void renderText(SDL_Renderer* &renderer, int x, int y, const int type);
+};
+#endif

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "../Manage/LogStat.h"
+#include "../Manage/LogStatus.h"
 #include "../Object/Texture.h"
 
 class Game

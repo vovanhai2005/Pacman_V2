@@ -5,31 +5,35 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "../Object/Ghost.h"    
+#include <SDL_mixer.h>
+#include <vector>
+#include "../Object/Ghost.h"
+#include "TextManage.h"
+#include "Button.h"
 
 class GameItemManage {
     private:
         int level;
         int life;
-        int eatenCoins;
-        int eatenGhost;
-        int scores;
+        int coinsEat;
+        int ghostEat;
+        int score;
         int pos = -1;
         std::string playername = "";
         int playerDecision;
         int currentBut;
         bool newRecord = false;
-        int ghostEatenPosX;
-        int ghostEatenPosY;
+        int ghostEatPosX;
+        int ghostEatPosY;
 
-        int PINKY_COIN_LIMIT;
-        int INKY_COIN_LIMIT;
-        int CLYDE_COIN_LIMIT;
+        int PINKY_COIN_OUT;
+        int INKY_COIN_OUT;
+        int CLYDE_COIN_OUT;
 
-        TextManager *levelText;
-        TextManager *liveText;
-        TextManager *scoreText;
-        TextManager *playerName;
+        TextManage *levelText;
+        TextManage *liveText;
+        TextManage *scoreText;
+        TextManage *playerName;
 
         SDL_Texture *egBoard;
         SDL_Texture *hsBoard;
@@ -42,8 +46,8 @@ class GameItemManage {
 
     public:
         const int TOTAL_COINS = 244;
-        static const int normalCoin = 26;
-        static const int superCoin = 27;
+        static const int smallCoin = 26;
+        static const int bigCoin = 27;
         static const int notCoin = 0;
         static const int pauseGame = 1;
         static const int AGAIN = 2;
@@ -66,8 +70,6 @@ class GameItemManage {
 
         void eatCoins(int coinType);
 
-        int remainCoins();
-
         bool coinClear();
 
         int ghostStreak();
@@ -79,5 +81,15 @@ class GameItemManage {
         void nextLevel();
 
         void ghostStart(Ghost* &pinky , Ghost* &inky , Ghost* &clyde);
+
+        int remainCoins();
+
+        void renderHUD(SDL_Renderer* &renderer);
+
+        void handleEGBoard(SDL_Event &e);
+
+        void runEGBoard(SDL_Renderer* &renderer);
+
+        int getPlayerDecision();
 };
 #endif 

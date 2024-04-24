@@ -114,65 +114,43 @@ int GameItemManage::remainCoins() {
     return 244 - coinsEat;
 }
 
-void GameManager::renderHUD(SDL_Renderer* &renderer) {
-    levelText->loadRenderText(renderer, "Level: " + std::to_string(level), {255, 255, 255, 255});
-    levelText->renderText(renderer, 0, 0, TextManager::LEFT);
-    liveText->loadRenderText(renderer, "Life: " + std::to_string(life), {255, 255, 255, 255});
-    liveText->renderText(renderer, 0, 50, TextManager::LEFT);
-    scoreText->loadRenderText(renderer, "Scores: " + std::to_string(scores), {255, 255, 255, 255});
-    scoreText->renderText(renderer, 0, 100, TextManager::LEFT);
+void GameItemManage::renderHUD(SDL_Renderer* &renderer) {
+    levelText -> loadRenderText(renderer, "Level: " + std::to_string(level), {255, 255, 255, 255});
+    levelText -> renderText(renderer , 0 , 0 , TextManage::LEFT);
+    liveText -> loadRenderText(renderer, "Life: " + std::to_string(life), {255, 255, 255, 255});
+    liveText -> renderText(renderer, 0, 50, TextManage::LEFT);
+    scoreText -> loadRenderText(renderer, "Scores: " + std::to_string(score), {255, 255, 255, 255});
+    scoreText -> renderText(renderer, 0, 100, TextManage::LEFT);
 }
 
-void GameManager::handleEGBoard(SDL_Event &e, std::vector<std::string> &scoreData) {
-    if (newRecord) {
-        if (e.type == SDL_KEYDOWN) {
-            if (e.key.keysym.sym == SDLK_RETURN && playername.length() > 2) {
-                Mix_PlayChannel(7, navigationSound, 0);
-                SDL_StopTextInput();
-                std::string data = playername + ": " + std::to_string(scores);
-                scoreData.emplace(scoreData.begin() + pos, data.c_str());
-                scoreData.pop_back();
-                newRecord = false;
-            }
-            if (e.key.keysym.sym == SDLK_BACKSPACE && playername.length() > 0) {
-                playername.pop_back();
-            }
-            else if (e.key.keysym.sym == SDLK_c && (SDL_GetModState() & KMOD_CTRL) ) {
-                SDL_SetClipboardText(playername.c_str());
-            }
-            else if (e.key.keysym.sym == SDLK_v && (SDL_GetModState() & KMOD_CTRL)) {
-                playername = SDL_GetClipboardText();
-            }
+void GameItemManage::handleEGBoard(SDL_Event &e) {
+    if (e.type == SDL_KEYDOWN)
+    {
+        Mix_PlayChannel(7, navigationSound, 0);
+        if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)
+        {
+            currentBut = 2;
+            noBut->setStatus(Button::BUTTON_IN);
+            yesBut->setStatus(Button::BUTTON_OUT);
         }
-        else if (e.type == SDL_TEXTINPUT) {
-            if( !( SDL_GetModState() & KMOD_CTRL && ( e.text.text[ 0 ] == 'c' || e.text.text[ 0 ] == 'C' || e.text.text[ 0 ] == 'v' || e.text.text[ 0 ] == 'V' ) ) && playername.length() < 22)
-                if ((e.text.text[0] >= 'a' && e.text.text[0] <= 'z') || (e.text.text[0] >= 'A' && e.text.text[0] <= 'Z') || (e.text.text[0] >= '0' && e.text.text[0] <= '9') || e.text.text[0] == ' ')
-                    playername += e.text.text;
+        else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT)
+        {
+            currentBut = 1;
+            yesBut->setStatus(Button::BUTTON_IN);
+            noBut->setStatus(Button::BUTTON_OUT);
         }
-    }
-    else {
-        if (e.type == SDL_KEYDOWN) {
-            Mix_PlayChannel(7, navigationSound, 0);
-            if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT) {
-                currentBut = 2;
-                noBut ->setStatus(Button::BUTTON_IN);
-                yesBut->setStatus(Button::BUTTON_OUT);
-            }
-            else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_LEFT) {
-                currentBut = 1;
-                yesBut->setStatus(Button::BUTTON_IN);
-                noBut ->setStatus(Button::BUTTON_OUT);
-            }
-            else if (e.key.keysym.sym == SDLK_RETURN) {
-                if (currentBut == 1) playerDecision = AGAIN;
-                else playerDecision = QUIT;
-            }
-            return;
+        else if (e.key.keysym.sym == SDLK_RETURN)
+        {
+            if (currentBut == 1)
+                playerDecision = AGAIN;
+            else
+                playerDecision = QUIT;
         }
+        return;
     }
 }
 
-void GameManager::runEGBoard(SDL_Renderer* &renderer) {
+void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
     SDL_Rect dsRect = {441 - 250, 248 - 150, 500, 300};
     SDL_RenderCopy(renderer, egBoard, nullptr, &dsRect);
     yesBut->renderButton(renderer);
@@ -188,7 +166,11 @@ void GameManager::runEGBoard(SDL_Renderer* &renderer) {
         caretTime %= 20;
         if (playername != "") {
             playerName->loadRenderText(renderer, playername.c_str(), {0, 0, 0, 255});
-            playerName->renderText(renderer, 395, 268, TextManager::LEFT);
+            playerName->renderText(renderer, 395, 268, TextManage::LEFT);
         }
     }
+}
+
+int GameItemManage::getPlayerDecision(){
+    return playerDecision;
 }

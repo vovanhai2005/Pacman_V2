@@ -4,7 +4,7 @@
 #define _MAP_H
 
 #include <SDL.h>
-#include "../Manage/LogStat.h"
+#include "../Manage/LogStatus.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
