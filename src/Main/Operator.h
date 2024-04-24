@@ -30,9 +30,11 @@ class Operator {
         SoundManage* soundManage;
         SDL_Texture* nextLevel;
         SDL_Texture* ready;
+        SDL_Texture* bomb;
         bool runningEGBoard = false;
         bool eatGreenApple = false;
         int timeToNextLevel = 0;
+        bool bombExist;
 
         int sqr(int x){
             return x * x;
