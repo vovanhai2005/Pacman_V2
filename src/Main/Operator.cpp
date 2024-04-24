@@ -358,7 +358,7 @@ void Operator::inLoop()
 
     if (itemManage -> coinClear()){
         soundManage -> loadingSound(SoundManage::NEXT_LEVEL);
-        timeToNextLevel = 120;
+        timeToNextLevel = 100;
     }
 }
 
