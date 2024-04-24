@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "Game.h"
-
+using namespace std;
 Game::Game()
 {
     window = NULL;
@@ -33,32 +33,25 @@ void Game::initSDL()
         {
             Console->Status(SDL_GetError());
         }
-        else
-        {
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        else{
+           renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             Console->Status("Renderer created successfully!");
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
             SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-            if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
-                Console -> Status("Mixer error!");
-            }
-            else Console -> Status("Mixer Ready");
-
             if (TTF_Init() < 0) Console->Status( TTF_GetError() );
             else Console->Status("TTF Ready!");
 
-            std::ifstream inFILE("score.txt");
-            std::string st;
-            int cnt = 0;
-            while (getline(inFILE, st))
-            {
-                ++cnt;
-                if (cnt > 5)
-                    break;
-                highScore.push_back(st);
+            if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 8, 2048) < 0) Console->Status( Mix_GetError() );
+            else Console->Status("Audio Ready!");
+            Mix_Volume(-1, MIX_MAX_VOLUME);
+
+            freopen("score.txt", "r", stdin);
+            std::string t = "";
+            for (int i = 0; i < 10; ++i) {
+                std::getline(std::cin, t);
+                highScore.push_back(t);
             }
-            inFILE.close();
         }
     }
 }
@@ -67,8 +60,11 @@ void Game::runGame()
 {
     SDL_Event e;
     Operator* ope = new Operator();
+     cout << "pre Init renderer\n";
     ope -> init(renderer);
+    cout << "Init renderer\n";
     ope -> gameOperate();
+    cout << "Before running loop\n";
     while (gameRunning)
     {
         while (SDL_PollEvent(&e) != 0)

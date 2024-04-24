@@ -11,6 +11,9 @@ GameItemManage::GameItemManage(SDL_Renderer* &renderer) {
     PINKY_COIN_OUT = 5;
     INKY_COIN_OUT = 30;
     CLYDE_COIN_OUT = 90;
+    levelText = new TextManage(24);
+    livesText = new TextManage(24);
+    scoreText = new TextManage(24);
 }
 
 GameItemManage::~GameItemManage() {
@@ -121,6 +124,8 @@ void GameItemManage::renderInfoInGame(SDL_Renderer* &renderer) {
     livesText -> renderText(renderer, 0, 50, TextManage::LEFT);
     scoreText -> loadRenderText(renderer, "Scores: " + std::to_string(score), {255, 255, 255, 255});
     scoreText -> renderText(renderer, 0, 100, TextManage::LEFT);
+
+    // lỗi ở phần renderText anh ạ
 }
 
 // void GameItemManage::handleEGBoard(SDL_Event &e) {

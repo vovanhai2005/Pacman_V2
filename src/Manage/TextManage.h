@@ -5,6 +5,7 @@
 
 #include <SDL_ttf.h>
 #include <string>
+#include <iostream>
 
 class TextManage{
     private:
@@ -15,7 +16,7 @@ class TextManage{
         SDL_Surface* textSurface;
 
     public:
-        const std::string FONT_NAME = "assets/Font/Blogger Sans-Bold.ttf";
+        const std::string FONT_NAME = "assets/Font/Sans-Bold.ttf";
         static const int CENTER = 0;
         static const int LEFT = 1;
 

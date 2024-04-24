@@ -209,7 +209,7 @@ void Operator::render(SDL_Renderer *&renderer){
     // }
     // if (runningEGBoard) itemManage->runEGBoard(renderer);
     // else 
-    itemManage->renderInfoInGame(renderer);
+    itemManage->renderInfoInGame(renderer); 
 }
 
 void Operator::inLoop()
