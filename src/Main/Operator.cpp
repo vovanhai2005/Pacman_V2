@@ -184,26 +184,28 @@ void Operator::render(SDL_Renderer *&renderer){
     if (!runningEGBoard){
         int dir = -1;
         if (!pacman -> emptyDir()) dir = pacman -> getDir();
-        if (!pacman -> isDead()){
-            renderGhost(renderer , blinky , Texture::BLINKY);
-            renderGhost(renderer , pinky , Texture::PINKY);
-            renderGhost(renderer , inky , Texture::INKY);
-            renderGhost(renderer , clyde , Texture::CLYDE);
-            if (Mix_Playing(2) && !timeToNextLevel) {
-                dsRect = {441 - 100, 285 - 35, 200, 60};
+        if (!pacman->isDead()) {
+            renderGhost(renderer, blinky, Texture::BLINKY);
+            renderGhost(renderer, pinky , Texture::PINKY );
+            renderGhost(renderer, inky  , Texture::INKY  );
+            renderGhost(renderer, clyde , Texture::CLYDE );
+            if (Mix_Playing(2)) {
+                dsRect = {441 - 82, 285 - 15 - 7, 164, 30};
                 SDL_RenderCopy(renderer, ready, nullptr, &dsRect);
             }
-            objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX() , pacman -> getPosY() , dir);
         }
-        else{
-            if(objectTexture -> pacmanIsDead()){
-                if (itemManage -> getLife() > 0) resetObject();
-                else runningEGBoard = true;      
+        if (pacman->isDead()) {
+            if (objectTexture->pacmanIsDead()) {
+                if (itemManage->getLife() > 0) resetObject();
+                else {
+                    runningEGBoard = true;
+                }
             }
-            else objectTexture -> renderPacmanTexture(renderer , pacman -> getPosX(), pacman -> getPosY(), Texture::PACMAN_DEAD);
+            else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), Texture::PACMAN_DEAD);
         }
+        else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
         if (timeToNextLevel > 0) {
-            dsRect = {441 - 97, 248 - 52, 194, 104};
+            dsRect = {441 - 97, 248 - 52, 250, 130};
             SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
         }
         if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
@@ -451,8 +453,8 @@ void Operator::ghostAI(Ghost* &ghostID){
 
 void Operator::checkCollision(Ghost* &ghostID){
     if (ghostID -> isDead()) return;
-    int dist = sqr((pacman -> getPosX() - ghostID -> getPosX())) + sqr((pacman -> getPosY() - ghostID->getPosY()));
-    if (dist <= 9){
+    int distance = (pacman->getPosX() - ghostID->getPosX()) * (pacman->getPosX() - ghostID->getPosX()) + (pacman->getPosY() - ghostID->getPosY()) * (pacman->getPosY() - ghostID->getPosY());
+    if (distance <= 9){
         if (ghostID -> isFrighten()) {
             itemManage -> eatGhost(ghostID -> getPosX(), ghostID -> getPosY());
             ghostID -> setDead(true);
@@ -461,8 +463,13 @@ void Operator::checkCollision(Ghost* &ghostID){
             soundManage -> loadingSound(SoundManage::GHOST_HOME);
         }
         else {
-            pacman -> setDead(true, 1);
+            pacman -> setDead(true , 1);
+            blinky -> setDead(true);
+            pinky -> setDead(true);
+            inky -> setDead(true);
+            clyde -> setDead(true);
             itemManage -> dead();
+            std::cout << itemManage -> getLife() << std::endl;
             soundManage -> loadingSound(SoundManage::DEAD);
         }
     }

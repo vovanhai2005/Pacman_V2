@@ -91,3 +91,23 @@ void Ghost::ghostRespawn(const int tileX, const int tileY, const bool lock) {
 bool Ghost::Lock() {
     return lock;
 }
+
+// if (ghost->isDead()) return;
+//     int distance = (pacman->getPosX() - ghost->getPosX()) * (pacman->getPosX() - ghost->getPosX()) + (pacman->getPosY() - ghost->getPosY()) * (pacman->getPosY() - ghost->getPosY());
+//     if (distance <= 9) {
+//     //if ((pacman->getPosX() == ghost->getPosX() && abs(pacman->getPosY() - ghost->getPosY()) <= 3) ||
+//     //    (pacman->getPosY() == ghost->getPosY() && abs(pacman->getPosX() - ghost->getPosX()) <= 3)) {
+//         if (ghost->isFrighten()) {
+//             gameManager->eatGhost(ghost->getPosX(), ghost->getPosY());
+//             ghost->setDead(true);
+//             ghost->setFrighten(false);
+//             soundManager->insertPlayList(SoundManager::EAT_GHOST);
+//             soundManager->insertPlayList(SoundManager::GHOST_GO_HOME);
+//         }
+//         else {
+//             pacman->setDead(true, 1);
+//             gameManager->lostALife();
+//             soundManager->insertPlayList(SoundManager::DEAD);
+//             tickManager->pauseTick(true);
+//         }
+//     }
