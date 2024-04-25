@@ -205,7 +205,7 @@ void Operator::render(SDL_Renderer *&renderer){
         }
         else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), dir);
         if (timeToNextLevel > 0) {
-            dsRect = {441 - 97, 248 - 52, 250, 130};
+            dsRect = {441 - 115, 248 - 45, 230 , 100};
             SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
         }
         if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
@@ -306,49 +306,49 @@ void Operator::inLoop()
     lastDir = -1;
     if (!pacman -> emptyDir()) lastDir = pacman -> getDir();
 
-    if (!pacman -> isDead()) {
-        tickManage -> pauseTick(false);
-        if (blinky -> isDead())
-            blinky -> markDestination(13, 11);
-        else if (!blinky -> isScattering())
-            blinky -> markDestination(pacmanTileX , pacmanTileY);
-        else blinky -> markDestination(Ghost::BLINKY_CORNER_TILE_X, Ghost::BLINKY_CORNER_TILE_Y);
+    if (!pacman->isDead()) {
+        tickManage->pauseTick(false);
+        if (blinky->isDead())
+            blinky->markDestination(13, 11);
+        else if (!blinky->isScattering())
+            blinky->markDestination(pacmanTileX, pacmanTileY);
+        else blinky->markDestination(Ghost::DEFAULT_BLINKY_TILE_X, Ghost::DEFAULT_BLINKY_TILE_Y);
 
-        if (pinky -> isDead())
-            pinky -> markDestination(13, 11);
-        else if (!pinky -> isScattering()) {
+        if (pinky->isDead())
+            pinky->markDestination(13, 11);
+        else if (!pinky->isScattering()) {
             switch (lastDir) {
                 case Map::UP:
-                    pinky -> markDestination(pacmanTileX, pacmanTileY - 4);
+                    pinky->markDestination(pacmanTileX, pacmanTileY - 4);
                     break;
                 case Map::DOWN:
-                    pinky -> markDestination(pacmanTileX, pacmanTileY + 4);
+                    pinky->markDestination(pacmanTileX, pacmanTileY + 4);
                     break;
                 case Map::LEFT:
-                    pinky -> markDestination(pacmanTileX - 4, pacmanTileY);
+                    pinky->markDestination(pacmanTileX - 4, pacmanTileY);
                     break;
                 case Map::RIGHT:
-                    pinky -> markDestination(pacmanTileX + 4, pacmanTileY);
+                    pinky->markDestination(pacmanTileX + 4, pacmanTileY);
                     break;
             }
         }
-        else pinky -> markDestination(Ghost::PINKY_CORNER_TILE_X, Ghost::PINKY_CORNER_TILE_X);
+        else pinky->markDestination(Ghost::DEFAULT_PINKY_TILE_X, Ghost::DEFAULT_PINKY_TILE_Y);
 
-        if (inky -> isDead())
-            inky -> markDestination(13, 11);
-        else if (!inky -> isScattering())
-            inky -> markDestination(2 * pacmanTileX - blinky -> getTileX(), 2 * pacmanTileY - blinky -> getTileY());
-        else inky -> markDestination(Ghost::INKY_CORNER_TILE_X, Ghost::INKY_CORNER_TILE_Y);
+        if (inky->isDead())
+            inky->markDestination(13, 11);
+        else if (!inky->isScattering())
+            inky->markDestination(2 * pacmanTileX - blinky->getTileX(), 2 * pacmanTileY - blinky->getTileY());
+        else inky->markDestination(Ghost::DEFAULT_INKY_TILE_X, Ghost::DEFAULT_INKY_TILE_Y);
 
-        if (clyde -> isDead())
-            clyde -> markDestination(13, 11);
-        else if (!clyde -> isScattering()) {
-            if ((pacmanTileX - clyde -> getTileX()) * (pacmanTileX - clyde -> getTileX()) + (pacmanTileY - clyde -> getTileY()) * (pacmanTileY - clyde -> getTileY()) <= 64)
-                clyde -> markDestination(Ghost::CLYDE_CORNER_TILE_X, Ghost::CLYDE_CORNER_TILE_Y);
+        if (clyde->isDead())
+            clyde->markDestination(13, 11);
+        else if (!clyde->isScattering()) {
+            if ((pacmanTileX - clyde->getTileX()) * (pacmanTileX - clyde->getTileX()) + (pacmanTileY - clyde->getTileY()) * (pacmanTileY - clyde->getTileY()) <= 64)
+                clyde->markDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
             else
-                clyde -> markDestination(pacmanTileX, pacmanTileY);
+                clyde->markDestination(pacmanTileX, pacmanTileY);
         }
-        else clyde -> markDestination(Ghost::CLYDE_CORNER_TILE_X, Ghost::CLYDE_CORNER_TILE_Y);
+        else clyde->markDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
     }
     pacman -> goIntoTunnel();
     ghostAI(blinky);
@@ -374,6 +374,8 @@ void Operator::ghostAI(Ghost* &ghostID){
     int lastDir = ghostID -> getGhostDir();
     int ghostNextTileX = ghostID -> getNextTileX();
     int ghostNextTileY = ghostID -> getNextTileY();
+
+    // if (ghostID == blinky) std::cout << ghostTileX << " " << ghostTileY << std::endl << ghostNextTileX << " " << ghostNextTileY << std::endl;
 
     if (ghostTileX * 16 == ghostPosX && ghostTileY * 16 == ghostPosY) {
         if (map -> isCross(ghostTileX, ghostTileY)) {
@@ -441,12 +443,11 @@ void Operator::ghostAI(Ghost* &ghostID){
         }
     }
     ghostID -> goIntoTunnel();
-    if (ghostPosX == ghostNextTileX * 16 && ghostPosY == ghostNextTileY * 16) {
-        if (ghostID -> isDead()) {
-            ghostID -> setDead(false);
-            soundManage -> loadingSound(SoundManage::RELIFE_GHOST);
-            ghostID -> markDestination(Ghost::GHOST_COMMON_TILE_X , Ghost::GHOST_COMMON_TILE_Y);
-        }
+    if (ghostID->isDead()) {
+        ghostID->setDead(false);
+        soundManage->loadingSound(SoundManage::RELIFE_GHOST);
+        SDL_Delay(5);
+        ghostID -> ghostRespawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
     }
     checkCollision(ghostID);
 }

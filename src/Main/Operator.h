@@ -13,6 +13,7 @@
 #include "../Manage/TickManage.h"
 #include "../Manage/GameItemManage.h"
 #include "../Manage/SoundManage.h"
+#include <map>
 
 class Operator {
     private:

@@ -123,9 +123,9 @@ int GameItemManage::getLevel() {
 }
 
 void GameItemManage::ghostStart(Ghost* &pinky, Ghost* &inky, Ghost* &clyde) {
-    if (pinky->Lock() && coinsEat >= PINKY_COIN_OUT) pinky->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
-    if (inky ->Lock() && coinsEat >= INKY_COIN_OUT) inky ->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
-    if (clyde->Lock() && coinsEat >= CLYDE_COIN_OUT) clyde->ghostRespawn(Ghost::GHOST_COMMON_TILE_X, Ghost::GHOST_COMMON_TILE_Y, false);
+    if (pinky->Lock() && coinsEat >= PINKY_COIN_OUT) pinky->ghostRespawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    if (inky ->Lock() && coinsEat >= INKY_COIN_OUT) inky ->ghostRespawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
+    if (clyde->Lock() && coinsEat >= CLYDE_COIN_OUT) clyde->ghostRespawn(Ghost::GHOST_START_TILE_X, Ghost::GHOST_START_TILE_Y, false);
 }
 
 
