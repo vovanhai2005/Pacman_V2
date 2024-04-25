@@ -54,9 +54,6 @@ void Operator::init(SDL_Renderer *&renderer)
     image = IMG_Load("assets/All Image/next_level.png");
     nextLevel = SDL_CreateTextureFromSurface(renderer , image);
     SDL_FreeSurface(image);
-    image = IMG_Load("assets/All Image/bomb.png");
-    bomb =  SDL_CreateTextureFromSurface(renderer , image);
-    SDL_FreeSurface(image);
 }
 
 void Operator::gameOperate()
@@ -78,18 +75,19 @@ void Operator::gameOperate()
     tickManage -> pauseTick(true);
 }
 
-void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostType)
+void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostID)
 {
-    int ghostPosX = ghost -> getPosX();
-    int ghostPosY = ghost -> getPosY();
-    int ghostDir = ghost -> getGhostDir();
-    
-    if (ghost -> isDead())
-        objectTexture -> renderGhostTexture(renderer , ghostPosX , ghostPosY , Texture::GHOST_DEAD , ghostDir);
-    else if (ghost -> isFrighten()) {
-        objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, Texture::BLUE_SCARED);
+    if (ghost == nullptr) return;
+    if (ghost->isDead())
+        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), Texture::GHOST_DEAD, ghost->getGhostDir());
+    else if (ghost->isFrighten()) {
+        if (tickManage->remainFrightenTime() < 2.0)
+            objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, Texture::WHITE_SCARED);
+        else
+            objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, Texture::BLUE_SCARED);
     }
-    else objectTexture->renderGhostTexture(renderer, ghostPosX, ghostPosY, ghostType, ghostDir);
+    else
+        objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, ghost->getGhostDir());
 }
 
 void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
@@ -99,7 +97,6 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
         if (runningEGBoard) itemManage -> handleEGBoard(e);
         return;
     }
-    bombExist = false;
     if (e.type == SDL_KEYDOWN)
     {
         if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_s || e.key.keysym.sym == SDLK_w || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)
@@ -171,7 +168,6 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
             }
             // std::cout << pacman -> size() << std::endl;
         }
-        if (e.key.keysym.sym == SDLK_SPACE) bombExist = true;
     }
 }
 
@@ -211,12 +207,8 @@ void Operator::render(SDL_Renderer *&renderer){
             SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
         }
         if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
-        if (bombExist){
-            dsRect = {pacman -> getPosX() - 8 , pacman -> getPosY() - 8 , 16 , 16};
-            SDL_RenderCopy(renderer , bomb , NULL , &dsRect);
-        }
         soundManage -> playSound();
-    }
+        }
     if (runningEGBoard) itemManage->runEGBoard(renderer);
     else itemManage->renderInfoInGame(renderer); 
 }
@@ -237,6 +229,16 @@ void Operator::inLoop()
         if (Mix_Playing(2)) tickManage->pauseTick(true);
         return;
     }
+    // if (pacman->isDead()) {
+    //     if (runningEGBoard) {
+    //         switch (itemManage->getPlayerDecision()) {
+    //             case GameItemManage::AGAIN:
+    //                 gameOperate();
+    //                 break;
+    //         }
+    //     }
+    //     return;
+    // }
     tickManage -> update();
     int pacmanTileX = pacman -> getTileX();
     int pacmanTileY = pacman -> getTileY();
