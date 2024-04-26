@@ -37,6 +37,8 @@ class Operator {
         int timeToNextLevel = 0;
         int timeExist;
 
+        Mix_Chunk* bombSound;
+
         int sqr(int x){
             return x * x;
         }

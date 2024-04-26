@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-// #include "Pacman.h"
+#include <SDL_mixer.h>
 #include "Ghost.h"
 #include "../Map/Map.h"
 #include "../Manage/GameItemManage.h"
@@ -18,6 +18,8 @@ class Bomb{
         SDL_Rect dsRect;
         Map* map;
         GameItemManage* itemManage;
+
+        Mix_Chunk* bombSound;
 
         Ghost* ghost[4];
         int tileX, tileY;

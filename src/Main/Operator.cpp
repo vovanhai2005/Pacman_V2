@@ -55,6 +55,7 @@ void Operator::init(SDL_Renderer *&renderer)
     image = IMG_Load("assets/All Image/next_level.png");
     nextLevel = SDL_CreateTextureFromSurface(renderer , image);
     SDL_FreeSurface(image);
+    bombSound = Mix_LoadWAV("assets/Sound/Bomb_Exploding-Sound_Explorer-68256487.wav");
 }
 
 void Operator::gameOperate(SDL_Renderer* &renderer)
@@ -125,7 +126,10 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
             else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_d) newDir = 1;
             else if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_s) newDir = 2;
             else if (e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_a) newDir = 3;
-            else if (e.key.keysym.sym == SDLK_z) timeExist = 100; 
+            else if (e.key.keysym.sym == SDLK_z){
+                timeExist = 100; 
+                Mix_PlayChannel(0 , bombSound , 0);
+            }
             // std::cout << lastDir << " " << newDir << " ";
             if (lastDir == -1){
                 // std::cout << "case -1 " << map -> isDirChange(pacmanTileX , pacmanTileY , newDir) << " ";

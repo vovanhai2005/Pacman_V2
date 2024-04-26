@@ -21,6 +21,7 @@ Bomb::Bomb(SDL_Renderer* &renderer , Ghost* &g0 , Ghost* &g1 , Ghost* &g2 , Ghos
     ghost[3] = g3;
     itemManage = gameManage;
 
+    bombSound = Mix_LoadWAV("assets/Sound/Bomb_Exploding-Sound_Explorer-68256487.wav");
 }
 
 Bomb::~Bomb(){
