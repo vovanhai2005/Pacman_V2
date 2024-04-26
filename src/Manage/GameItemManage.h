@@ -87,7 +87,7 @@ class GameItemManage {
 
         void renderInfoInGame(SDL_Renderer* &renderer);
 
-        void handleEGBoard(SDL_Event &e);
+        void handleEGBoard(SDL_Event &e, std::vector<std::string> &scoreDa);
 
         void runEGBoard(SDL_Renderer* &renderer);
 

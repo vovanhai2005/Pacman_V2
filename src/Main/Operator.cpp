@@ -41,6 +41,7 @@ Operator::~Operator(){
 
 void Operator::init(SDL_Renderer *&renderer)
 {
+    std::cout << "goi tui chua\n";
     map = new Map();
     objectTexture = new Texture();
     soundManage = new SoundManage();
@@ -56,6 +57,9 @@ void Operator::init(SDL_Renderer *&renderer)
     nextLevel = SDL_CreateTextureFromSurface(renderer , image);
     SDL_FreeSurface(image);
     bombSound = Mix_LoadWAV("assets/Sound/Bomb_Exploding-Sound_Explorer-68256487.wav");
+    
+    gameOperate(renderer);
+    if(pacman == nullptr) std::cout <<"pacman chua khoi tao gia tri\n";
 }
 
 void Operator::gameOperate(SDL_Renderer* &renderer)
@@ -97,7 +101,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer , std::vector<
 {
     if (Mix_Playing(2) || Mix_Playing(4)) return;
     if (pacman -> isDead()) {
-        if (runningEGBoard) itemManage -> handleEGBoard(e);
+        if (runningEGBoard) itemManage -> handleEGBoard(e, scoreData);
         return;
     }
     if (e.type == SDL_KEYDOWN)
@@ -249,27 +253,32 @@ void Operator::inLoop(SDL_Renderer *&renderer , bool &exitToMenu)
         if (Mix_Playing(2)) tickManage->pauseTick(true);
         return;
     }
-    if (pacman->isDead()) {
-        if (runningEGBoard) {
-            switch (itemManage->getPlayerDecision()) {
-                case GameItemManage::AGAIN:
-                    gameOperate(renderer);
-                    break;
-                case GameItemManage::QUIT:
-                    exitToMenu = true; 
-                    break;
-            }
-        }
-        return;
-    }
+    
+    // if (pacman->isDead()) {
+    //     if (runningEGBoard) {
+    //         switch (itemManage->getPlayerDecision()) {
+    //             case GameItemManage::AGAIN:
+    //                 gameOperate(renderer);
+    //                 break;
+    //             case GameItemManage::QUIT:
+    //                 exitToMenu = true; 
+    //                 break;
+    //         }
+    //     }
+    //     return;
+    // }
+
+    
     tickManage -> update();
+    if(pacman == nullptr) std::cout << "bug pacman null \n";
     int pacmanTileX = pacman -> getTileX();
     int pacmanTileY = pacman -> getTileY();
     int pacmanPosX = pacman -> getPosX();
     int pacmanPosY = pacman -> getPosY();
     int lastDir = -1;
+    
     if (!pacman -> emptyDir()) lastDir = pacman -> getDir();
-
+    
     if (!pacman -> isDead() && lastDir != -1) {
         if (pacmanTileX * 16 == pacmanPosX && pacmanTileY * 16 == pacmanPosY) {
             if (map -> isCross(pacmanTileX, pacmanTileY)) {
@@ -325,6 +334,7 @@ void Operator::inLoop(SDL_Renderer *&renderer , bool &exitToMenu)
     pacmanPosX = pacman -> getPosX();
     pacmanPosY = pacman -> getPosY();
     lastDir = -1;
+    
     if (!pacman -> emptyDir()) lastDir = pacman -> getDir();
 
     if (!pacman->isDead()) {
@@ -371,6 +381,7 @@ void Operator::inLoop(SDL_Renderer *&renderer , bool &exitToMenu)
         }
         else clyde->markDestination(Ghost::DEFAULT_CLYDE_TILE_X, Ghost::DEFAULT_CLYDE_TILE_Y);
     }
+    
     pacman -> goIntoTunnel();
     ghostAI(blinky);
     ghostAI(pinky);
@@ -383,6 +394,7 @@ void Operator::inLoop(SDL_Renderer *&renderer , bool &exitToMenu)
         soundManage -> loadingSound(SoundManage::NEXT_LEVEL);
         timeToNextLevel = 100;
     }
+    
 }
 
 void Operator::ghostAI(Ghost* &ghostID){

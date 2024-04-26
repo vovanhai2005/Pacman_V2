@@ -20,7 +20,7 @@ class GameControl {
         bool runPauseMenu = false;
     public:
         std::vector<std::string> pauseMenuButtonText = {"Resume", "New Game", "How to Play", "Sound: ON", "Exit to Start Menu"};
-        GameControl();
+        GameControl(SDL_Renderer* &renderer);
 
         ~GameControl();
 

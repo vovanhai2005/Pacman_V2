@@ -4,8 +4,10 @@
 
 using namespace std;
 
-GameControl::GameControl() {
+GameControl::GameControl(SDL_Renderer* &renderer) {
     ope = new Operator();
+    std::cout << "goi tui chua vay\n";
+    ope->init(renderer);
     pauseMenu = new Menu(262, 170, pauseMenuButtonText.size(), 320, 30);
     runPauseMenu = false;
 }

@@ -142,8 +142,34 @@ void GameItemManage::renderInfoInGame(SDL_Renderer* &renderer) {
     scoreText -> renderText(renderer, 0, 100, TextManage::LEFT);
 }
 
-void GameItemManage::handleEGBoard(SDL_Event &e) {
-    if (e.type == SDL_KEYDOWN)
+void GameItemManage::handleEGBoard(SDL_Event &e, std::vector<std::string> &scoreData) {
+     if (newRecord) {
+        if (e.type == SDL_KEYDOWN) {
+            if (e.key.keysym.sym == SDLK_RETURN && player.length() > 2) {
+                Mix_PlayChannel(7, navigationSound, 0);
+                SDL_StopTextInput();
+                std::string data = player + ": " + std::to_string(score);
+                scoreData.emplace(scoreData.begin() + pos, data.c_str());
+                scoreData.pop_back();
+                newRecord = false;
+            }
+            if (e.key.keysym.sym == SDLK_BACKSPACE && player.length() > 0) {
+                player.pop_back();
+            }
+            else if (e.key.keysym.sym == SDLK_c && (SDL_GetModState() & KMOD_CTRL) ) {
+                SDL_SetClipboardText(player.c_str());
+            }
+            else if (e.key.keysym.sym == SDLK_v && (SDL_GetModState() & KMOD_CTRL)) {
+                player = SDL_GetClipboardText();
+            }
+        }
+        else if (e.type == SDL_TEXTINPUT) {
+            if( !( SDL_GetModState() & KMOD_CTRL && ( e.text.text[ 0 ] == 'c' || e.text.text[ 0 ] == 'C' || e.text.text[ 0 ] == 'v' || e.text.text[ 0 ] == 'V' ) ) && player.length() < 22)
+                if ((e.text.text[0] >= 'a' && e.text.text[0] <= 'z') || (e.text.text[0] >= 'A' && e.text.text[0] <= 'Z') || (e.text.text[0] >= '0' && e.text.text[0] <= '9') || e.text.text[0] == ' ')
+                    player += e.text.text;
+        }
+    }
+    else if (e.type == SDL_KEYDOWN)
     {
         Mix_PlayChannel(7, navigationSound, 0);
         if (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_RIGHT)

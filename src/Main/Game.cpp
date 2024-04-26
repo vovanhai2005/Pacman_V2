@@ -77,7 +77,7 @@ void Game::runGame()
     SDL_Event e;
     runningMenu = true;
     bool startGame = false;
-    gameControl = new GameControl();
+    gameControl = new GameControl(renderer);
 
     while (Running) {
 
@@ -104,8 +104,9 @@ void Game::runGame()
                 gameControl->newGame(renderer);
                 startGame = true;
             }
-            std::cout << "haha";
+
             gameControl->runGame(renderer , runningMenu);
+          
             if (runningMenu) startMenu->reOpen(), startGame = false;
         }
 
