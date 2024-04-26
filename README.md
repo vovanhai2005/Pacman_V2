@@ -72,8 +72,9 @@ So với phiên bản cổ điển, game đã được chỉnh sửa để quá 
 
 # 7. Nguồn tham khảo và tài liệu:
 * Tham khảo: Những kiến thức nền tảng cũng như các ý tưởng xây dựng game mình đều học thông qua channel Youtube [Phát Triển Phần Mềm 123A_Z](https://www.youtube.com/@PhatTrienPhanMem123AZ) và [Let's Make Games](https://www.youtube.com/@CarlBirch). Ngoài ra mình cũng có tham khảo nguồn tài liệu từ [LazyFoo](https://lazyfoo.net/tutorials/SDL/) và một số github repository tương tự
-* Hình ảnh: Mình sử dụng một số ảnh từ [Pinterest](https://www.pinterest.com/) và một số còn lại mình dùng nguồn dữ liệu từ [Canva](https://www.canva.com/vi_vn/). Ngoài ra mình còn dùng  web [Remomve Background AI](https://remove-bg.ai/vi) để xóa nền
+* Hình ảnh: Mình sử dụng một số ảnh từ [Pinterest](https://www.pinterest.com/) và một số còn lại mình dùng nguồn dữ liệu từ [Canva](https://www.canva.com/vi_vn/). Ngoài ra mình còn dùng  web [Remove Background AI](https://remove-bg.ai/vi) để xóa nền cho hình ảnh
 * Âm thanh: Mình lấy âm thanh từ trang [Sound Bible](https://soundbible.com/)
+* Font: Mình lấy font Sans Bold ở trang [1001 Fonts](https://www.1001fonts.com/blogger-sans-font.html)
 # 8. Phần kết
 Em xin gửi lời cảm ơn chân thành đến:
 * Thầy Lê Đức Trọng vì đã giúp em hiểu được cốt lõi của kiến thức lập trình nâng cao, hiểu quy trình và kỹ năng quản lý dự án nhằm qua đó nâng cao kến thức và xây dựng nền móng cơ bản trong việc hoàn thành game của em.
