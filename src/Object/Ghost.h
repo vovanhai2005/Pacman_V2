@@ -18,7 +18,7 @@ class Ghost : public Object {
         int accelerate;
     public:
 
-              static const int GHOST_START_TILE_X = 13;
+        static const int GHOST_START_TILE_X = 13;
         static const int GHOST_START_TILE_Y = 11;
 
         static const int DEFAULT_BLINKY_TILE_X = 26;

@@ -15,6 +15,7 @@ Operator::Operator()
     inky = NULL;
     clyde = NULL;
     objectTexture = NULL;
+    bomb = NULL;
 }
 
 Operator::~Operator(){
@@ -56,7 +57,7 @@ void Operator::init(SDL_Renderer *&renderer)
     SDL_FreeSurface(image);
 }
 
-void Operator::gameOperate()
+void Operator::gameOperate(SDL_Renderer* &renderer)
 {
     map -> reset();
     itemManage -> resetGameItem();
@@ -70,6 +71,7 @@ void Operator::gameOperate()
     inky   = new Ghost(11, 14, true);
     delete clyde;
     clyde  = new Ghost(15, 14, true);
+    bomb = new Bomb(renderer , blinky , pinky , inky , clyde , itemManage);
     soundManage -> loadingSound(SoundManage::START);
     tickManage -> resetTick(itemManage -> getLevel());
     tickManage -> pauseTick(true);
@@ -99,7 +101,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
     }
     if (e.type == SDL_KEYDOWN)
     {
-        if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_s || e.key.keysym.sym == SDLK_w || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)
+        if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_s || e.key.keysym.sym == SDLK_w || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_z)
         {
             int newDir = -1;
             int lastDir = -1;
@@ -123,6 +125,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
             else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_d) newDir = 1;
             else if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_s) newDir = 2;
             else if (e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_a) newDir = 3;
+            else if (e.key.keysym.sym == SDLK_z) timeExist = 100; 
             // std::cout << lastDir << " " << newDir << " ";
             if (lastDir == -1){
                 // std::cout << "case -1 " << map -> isDirChange(pacmanTileX , pacmanTileY , newDir) << " ";
@@ -196,7 +199,11 @@ void Operator::render(SDL_Renderer *&renderer){
         }
         if (pacman->isDead()) {
             if (objectTexture->pacmanIsDead()) {
-                if (itemManage->getLife() > 0) resetObject();
+                if (itemManage->getLife() > 0){ 
+                    resetObject();
+                    delete bomb;
+                    bomb = new Bomb(renderer , blinky , pinky , inky , clyde , itemManage);
+                }
                 else {
                     runningEGBoard = true;
                 }
@@ -208,14 +215,20 @@ void Operator::render(SDL_Renderer *&renderer){
             dsRect = {441 - 115, 248 - 45, 230 , 100};
             SDL_RenderCopy(renderer , nextLevel , nullptr , &dsRect);
         }
-        if (Mix_Playing(4))  objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
-        soundManage -> playSound();
+        static int tmpPosX , tmpPosY;
+        if (timeExist > 0 && timeExist <= 100){
+            if (timeExist == 100) bomb->setPosX( pacman -> getPosX()) , bomb -> setPosY(pacman -> getPosY());
+            else bomb -> renderBomb(renderer);
+            timeExist--;
         }
+        if (Mix_Playing(4)) objectTexture -> renderGhostScore(renderer , itemManage -> getGhostEatPosX() , itemManage -> getGhostEatPosY() , itemManage -> ghostStreak());
+        soundManage -> playSound();
+    }
     if (runningEGBoard) itemManage->runEGBoard(renderer);
     else itemManage->renderInfoInGame(renderer); 
 }
 
-void Operator::inLoop()
+void Operator::inLoop(SDL_Renderer *&renderer)
 {
     if (itemManage -> coinClear()) {
         if (timeToNextLevel > 0) timeToNextLevel--;
@@ -231,16 +244,16 @@ void Operator::inLoop()
         if (Mix_Playing(2)) tickManage->pauseTick(true);
         return;
     }
-    // if (pacman->isDead()) {
-    //     if (runningEGBoard) {
-    //         switch (itemManage->getPlayerDecision()) {
-    //             case GameItemManage::AGAIN:
-    //                 gameOperate();
-    //                 break;
-    //         }
-    //     }
-    //     return;
-    // }
+    if (pacman->isDead()) {
+        if (runningEGBoard) {
+            switch (itemManage->getPlayerDecision()) {
+                case GameItemManage::AGAIN:
+                    gameOperate(renderer);
+                    break;
+            }
+        }
+        return;
+    }
     tickManage -> update();
     int pacmanTileX = pacman -> getTileX();
     int pacmanTileY = pacman -> getTileY();
@@ -458,8 +471,7 @@ void Operator::checkCollision(Ghost* &ghostID){
     if (distance <= 9){
         if (ghostID -> isFrighten()) {
             itemManage -> eatGhost(ghostID -> getPosX(), ghostID -> getPosY());
-            ghostID -> setDead(true);
-            ghostID -> makeFrighten(false);
+            ghostID -> ghostRespawn(Ghost::GHOST_START_TILE_X , Ghost::GHOST_START_TILE_Y , false);
             soundManage -> loadingSound(SoundManage::EAT_GHOST);
             soundManage -> loadingSound(SoundManage::GHOST_HOME);
         }

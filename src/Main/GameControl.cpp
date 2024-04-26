@@ -1,18 +1,18 @@
-#include "GameControl.h"
+// #include "GameControl.h"
 
-GameControl::GameControl(){
-    ope = new Operator();
-}
+// GameControl::GameControl(){
+//     ope = new Operator();
+// }
 
-GameControl::~GameControl(){
-    delete ope;
-    ope = nullptr;
-}
+// GameControl::~GameControl(){
+//     delete ope;
+//     ope = nullptr;
+// }
 
-void GameControl::handleEvent(SDL_Event &e, SDL_Renderer* &renderer, bool &runningMain){
-    ope -> gameOperate();
-}
+// void GameControl::handleEvent(SDL_Event &e, SDL_Renderer* &renderer, bool &runningMain){
+//     ope -> gameOperate();
+// }
 
-void GameControl::runGame(){
-    ope -> inLoop();
-}
+// void GameControl::runGame(){
+//     ope -> inLoop();
+// }

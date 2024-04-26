@@ -10,10 +10,10 @@
 #include "../Object/Ghost.h"
 #include "../Object/Item.h"
 #include "../Object/Texture.h"
+#include "../Object/Bomb.h"
 #include "../Manage/TickManage.h"
 #include "../Manage/GameItemManage.h"
 #include "../Manage/SoundManage.h"
-#include <map>
 
 class Operator {
     private:
@@ -31,9 +31,11 @@ class Operator {
         SoundManage* soundManage;
         SDL_Texture* nextLevel;
         SDL_Texture* ready;
+        Bomb* bomb;
         bool runningEGBoard = false;
         bool eatGreenApple = false;
         int timeToNextLevel = 0;
+        int timeExist;
 
         int sqr(int x){
             return x * x;
@@ -51,13 +53,13 @@ class Operator {
 
         ~Operator();
 
-        void gameOperate();
+        void gameOperate(SDL_Renderer* &renderer);
 
         void init(SDL_Renderer* &renderer);
 
         void makingEvent(SDL_Event &e , SDL_Renderer* &renderer);
 
-        void inLoop();
+        void inLoop(SDL_Renderer *&renderer);
 
         void render(SDL_Renderer* &renderer);
 

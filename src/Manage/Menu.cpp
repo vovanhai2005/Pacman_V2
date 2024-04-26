@@ -51,9 +51,9 @@
 //     else {
 //         menuTexture = SDL_CreateTextureFromSurface(renderer, Image);
 //         SDL_FreeSurface(Image);
-//         howToPlayTexture[0] = loadImage(renderer, "Source/Assets/Menu Image/How to Play1.png");
-//         howToPlayTexture[1] = loadImage(renderer, "Source/Assets/Menu Image/How to Play2.png");
-//         howToPlayTexture[2] = loadImage(renderer, "Source/Assets/Menu Image/H   ow to Play3.png");
+//         howToPlayTexture[0] = loadImage(renderer, "assets/All Image/How to Play1.png");
+//         howToPlayTexture[1] = loadImage(renderer, "assets/All Image/How to Play2.png");
+//         howToPlayTexture[2] = loadImage(renderer, "assets/All Image/How to Play3.png");
 //         Image = IMG_Load("Source/Assets/Menu Image/High Scores.png");
 //         highScoreTexture = loadImage(renderer, "Source/Assets/Menu Image/High Scores.png");
 //         arrowTexture = loadImage(renderer, "Source/Assets/Menu Image/arrow-upanddown.png");

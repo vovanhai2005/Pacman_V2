@@ -5,22 +5,34 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Pacman.h"
+// #include "Pacman.h"
+#include "Ghost.h"
+#include "../Map/Map.h"
+#include "../Manage/GameItemManage.h"
 
 class Bomb{
     private:
         SDL_Texture* bombTexture = nullptr;
+        SDL_Texture* explodeRowTexture;
+        SDL_Texture* explodeColTexture;
         SDL_Rect dsRect;
-        const int Row[4] = {0 , 0 , -1 , 1};
-        const int Col[4] = {1 , -1 , 0 , 0};
-        static const int time = 15;
+        Map* map;
+        GameItemManage* itemManage;
+
+        Ghost* ghost[4];
+        int tileX, tileY;
+        int posX, posY;
     public:
-        Bomb();
+        Bomb(SDL_Renderer* &renderer, Ghost* &g0 , Ghost* &g1 , Ghost* &g2 , Ghost* &g3 , GameItemManage* &gameManage);
 
         ~Bomb();
 
         void makingEvent(SDL_Event &e);
 
-        void renderBomb(SDL_Renderer* &renderer , int tileX , int tileY);
+        void setPosX(int x);
+
+        void setPosY(int y);
+
+        void renderBomb(SDL_Renderer* &renderer);
 };
 #endif

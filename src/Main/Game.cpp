@@ -61,7 +61,7 @@ void Game::runGame()
     SDL_Event e;
     Operator* ope = new Operator();
     ope -> init(renderer);
-    ope -> gameOperate();
+    ope -> gameOperate(renderer);
     while (gameRunning)
     {   
         if (ope -> getTimeLevel() == 0)
@@ -76,7 +76,7 @@ void Game::runGame()
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        ope -> inLoop();
+        ope -> inLoop(renderer);
         ope -> render(renderer);
 
         SDL_RenderPresent(renderer);
