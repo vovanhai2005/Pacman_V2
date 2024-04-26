@@ -26,11 +26,11 @@ Menu sẽ bao gồm các tính năng:
 * **SOUND: ON/OFF**: Bật/Tắt âm thanh game
 * **Quit**: Thoát game
 
-## 2.2 Khi vào game, người chơi sẽ được đưa đến màn hình chơi như sau:
+## 2.2 Khi vào New Game, người chơi sẽ được đưa đến màn hình chơi như sau:
 
 ![Game](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/0ec8243a-bc23-4b5e-b4b7-16a4e3314310)
 
-Nhiệm vụ của người chơi là di chuyển pacman và thu thập nhiều điểm nhất có thể
+## 2.2 Khi vào How To PLay, người chơi sẽ được đưa đến bảng hướng dẫn như sau:
 
 # 3. Nhân vật, kẻ địch và item của game
 ## 3.1 Nhân vật
@@ -39,8 +39,15 @@ Nhiệm vụ của người chơi là di chuyển pacman và thu thập nhiều 
 * Blinky: ![Blinky](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/331a8e52-7eea-4c54-97f3-7b5264d28772)
 * Pinky: ![Pinky](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/10cca7bb-9ad7-4fd2-bd42-a71eb78014f8)
 * Inky: ![Inky](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/7b2001b8-10d9-4042-8100-ea6cc3bda794)
-* Clyde:
-##
+* Clyde: ![Clyde](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/d727dde0-4e98-4d9e-8563-b43732e9fabd)
+## 3.3 Item
+* Bom: ![bombb](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/53de97ec-8e1e-4257-9c31-42517f1eb483)
+* Thanh laser ngang: ![Row_bomb](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/b10e7125-80ea-44f0-a11e-f79fa9b2adea)
+* Thanh laser dọc: ![Col_Bomb](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/33317ccb-e902-4884-910e-f55776f58e63)
+# 4. Hướng dẫn chơi game
+* Sử dụng các nút ![wasd](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/c7674494-d742-4006-ae75-174dc78cb070) hoặc
+
+
 
 
 
