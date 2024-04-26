@@ -91,6 +91,8 @@ class GameItemManage {
 
         void runEGBoard(SDL_Renderer* &renderer);
 
+        void checkScoreData(const std::vector<std::string> &scoreData);
+
         int getPlayerDecision();
 };
 #endif 

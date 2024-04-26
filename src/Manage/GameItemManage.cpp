@@ -190,6 +190,22 @@ void GameItemManage::runEGBoard(SDL_Renderer* &renderer) {
     }
 }
 
+void GameItemManage::checkScoreData(const std::vector<std::string> &scoreData) {
+    for (int i = 0; i < scoreData.size(); ++i) {
+        int t = 0;
+        int j = 0;
+        while (j < scoreData[i].length() && scoreData[i][j] != ':') ++j;
+        j += 2;
+        while (j < scoreData[i].length()) t = t * 10 + scoreData[i][j] - '0', ++j;
+        if (score > t) {
+            newRecord = true;
+            SDL_StartTextInput();
+            pos = i;
+            break;
+        }
+    }
+}
+
 int GameItemManage::getPlayerDecision(){
     return playerDecision;
 }

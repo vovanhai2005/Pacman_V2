@@ -50,6 +50,14 @@ void Button::setStatus(const int status) {
     buttonStatus = status;
 }
 
+void Button::changeSoundButton(SDL_Renderer* &renderer) {
+    if (bText == "Sound: ON") bText = "Sound: OFF";
+    else bText = "Sound: ON";
+    normalText->loadRenderText(renderer, bText, normalColor);
+    selectText->loadRenderText(renderer, bText, selectColor);
+    buttonStatus = BUTTON_IN;
+}
+
 bool Button::checkMousePos(const int &x, const int &y) const {
     if (x < buttonRect.x || x > buttonRect.x + buttonRect.w) return false;
     if (y < buttonRect.y || y > buttonRect.y + buttonRect.h) return false;

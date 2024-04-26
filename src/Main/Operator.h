@@ -59,11 +59,11 @@ class Operator {
 
         void init(SDL_Renderer* &renderer);
 
-        void makingEvent(SDL_Event &e , SDL_Renderer* &renderer);
+        void makingEvent(SDL_Event &e , SDL_Renderer* &renderer , std::vector<std::string> &scoreData);
 
-        void inLoop(SDL_Renderer *&renderer);
+        void inLoop(SDL_Renderer *&renderer , bool &exitToMenu);
 
-        void render(SDL_Renderer* &renderer);
+        void render(SDL_Renderer* &renderer , const std::vector<std::string> &scoreData);
 
         int getTimeLevel(){
             return timeToNextLevel;

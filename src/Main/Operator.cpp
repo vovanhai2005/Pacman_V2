@@ -93,7 +93,7 @@ void Operator::renderGhost(SDL_Renderer *&renderer, Ghost *&ghost, int ghostID)
         objectTexture->renderGhostTexture(renderer, ghost->getPosX(), ghost->getPosY(), ghostID, ghost->getGhostDir());
 }
 
-void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
+void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer , std::vector<std::string> &scoreData)
 {
     if (Mix_Playing(2) || Mix_Playing(4)) return;
     if (pacman -> isDead()) {
@@ -178,7 +178,7 @@ void Operator::makingEvent(SDL_Event &e , SDL_Renderer* &renderer)
     }
 }
 
-void Operator::render(SDL_Renderer *&renderer){
+void Operator::render(SDL_Renderer *&renderer , const std::vector<std::string> &scoreData){
     tickManage -> stablizeFPS();    
     // Render map
     SDL_Rect dsRect;
@@ -210,6 +210,7 @@ void Operator::render(SDL_Renderer *&renderer){
                 }
                 else {
                     runningEGBoard = true;
+                    itemManage -> checkScoreData(scoreData);
                 }
             }
             else objectTexture->renderPacmanTexture(renderer, pacman->getPosX(), pacman->getPosY(), Texture::PACMAN_DEAD);
@@ -232,7 +233,7 @@ void Operator::render(SDL_Renderer *&renderer){
     else itemManage->renderInfoInGame(renderer); 
 }
 
-void Operator::inLoop(SDL_Renderer *&renderer)
+void Operator::inLoop(SDL_Renderer *&renderer , bool &exitToMenu)
 {
     if (itemManage -> coinClear()) {
         if (timeToNextLevel > 0) timeToNextLevel--;
@@ -253,6 +254,9 @@ void Operator::inLoop(SDL_Renderer *&renderer)
             switch (itemManage->getPlayerDecision()) {
                 case GameItemManage::AGAIN:
                     gameOperate(renderer);
+                    break;
+                case GameItemManage::QUIT:
+                    exitToMenu = true; 
                     break;
             }
         }
