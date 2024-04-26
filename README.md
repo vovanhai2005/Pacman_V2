@@ -15,7 +15,7 @@
 
 # 2.Bắt đầu game
 
-## 2.1Sau khi đã biên dịch xong thì Menu của game sẽ hiện ra như này:
+## 2.1 Sau khi đã biên dịch xong thì Menu của game sẽ hiện ra như này:
 
 ![Pacman Pause Menu](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/6a3a4730-98fe-46d1-9d89-65d1a8119c01)
 
@@ -26,7 +26,7 @@ Menu sẽ bao gồm các tính năng:
 * **SOUND: ON/OFF**: Bật/Tắt âm thanh game
 * **Quit**: Thoát game
 
-## 2.2Khi vào game, người chơi sẽ được đưa đến màn hình chơi như sau:
+## 2.2 Khi vào game, người chơi sẽ được đưa đến màn hình chơi như sau:
 
 ![Game](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/0ec8243a-bc23-4b5e-b4b7-16a4e3314310)
 
