@@ -17,7 +17,8 @@ Link demo video về game:
 
 ## 2.1 Sau khi đã biên dịch xong thì Menu của game sẽ hiện ra như này:
 
-![Pacman Pause Menu](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/6a3a4730-98fe-46d1-9d89-65d1a8119c01)
+![Screenshot 2024-04-30 110642](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/45fb5883-7f84-42b4-8f31-69b8392b8d41)
+
 
 Menu sẽ bao gồm các tính năng:
 * **New Game**: bắt đầu một game mới
@@ -30,11 +31,21 @@ Menu sẽ bao gồm các tính năng:
 
 ![Game](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/0ec8243a-bc23-4b5e-b4b7-16a4e3314310)
 
-## 2.2 Khi vào How To PLay, người chơi sẽ được đưa đến bảng hướng dẫn như sau:
+## 2.3 Khi vào How To PLay, người chơi sẽ được đưa đến bảng hướng dẫn như sau:
+![Screenshot 2024-04-30 110701](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/7a4d0bc9-79bc-41f3-b832-a2961be4ac98)
+
+
+![Screenshot 2024-04-30 110718](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/73ffd345-4bbc-44c2-801f-691e213a65ae)
+
+
+![Screenshot 2024-04-30 112011](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/6e63aa10-bfc9-4c44-9725-e39008dd1e46)
+
+
+
 
 # 3. Nhân vật, kẻ địch và item của game
 ## 3.1 Nhân vật
-* Pacman:  ![pacman](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/3bae88ec-0e63-4dcf-93f3-c6d53637ea46)
+* Pacman:  ![pacman](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/86aaef03-9184-4710-9c28-32713de7658b)
 ## 3.2 Kẻ địch
 * Blinky: ![Blinky](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/331a8e52-7eea-4c54-97f3-7b5264d28772)
 * Pinky: ![Pinky](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/10cca7bb-9ad7-4fd2-bd42-a71eb78014f8)
@@ -45,8 +56,8 @@ Menu sẽ bao gồm các tính năng:
 * Thanh laser ngang: ![Row_bomb](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/b10e7125-80ea-44f0-a11e-f79fa9b2adea)
 * Thanh laser dọc: ![Col_Bomb](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/33317ccb-e902-4884-910e-f55776f58e63)
 # 4. Hướng dẫn chơi game
-* Sử dụng các nút ![wasd](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/c7674494-d742-4006-ae75-174dc78cb070) hoặc để di chuyển Pacman tránh né ma
-* Sử dụng nút z để kích hoạt quả bom gây sát thương lên toàn bộ hàng ngang và hàng dọc trong map
+* Sử dụng các nút ![wasd](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/c7674494-d742-4006-ae75-174dc78cb070) hoặc ![arrow](https://github.com/vovanhai2005/Pacman_V2/assets/142618703/c4048201-75fb-463e-ae95-d1e86568b24e) để di chuyển Pacman tránh né ma
+* Sử dụng nút _*Z*_ để kích hoạt quả bom gây sát thương lên toàn bộ hàng ngang và hàng dọc trong map
 * Đạt đến level không giới hạn và tích lũy điểm cao nhất
 # 5. Source Code
 1. Folder Main
