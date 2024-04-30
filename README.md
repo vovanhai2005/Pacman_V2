@@ -77,6 +77,6 @@ So với phiên bản cổ điển, game đã được chỉnh sửa để quá 
 * Font: Mình lấy font Sans Bold ở trang [1001 Fonts](https://www.1001fonts.com/blogger-sans-font.html)
 # 8. Phần kết
 Em xin gửi lời cảm ơn chân thành đến:
-* Thầy Lê Đức Trọng vì đã giúp em hiểu được cốt lõi của kiến thức lập trình nâng cao, hiểu quy trình và kỹ năng quản lý dự án nhằm qua đó nâng cao kến thức và xây dựng nền móng cơ bản trong việc hoàn thành game của em.
-* Thầy Trần Trường Thủy vì đã hướng dẫn em những kiến thức cơ bản về lập trình game bằng SDL2 đồng thời tận tình chỉ bảo chúng em những công cụ cần thiết cho việc xây dựng project game này
-* Mentor Nguyễn Vũ Thanh Tùng vì đã giúp em trong việc fix bug và hướng dẫn em fix một số code error trong game
+* Thầy **Lê Đức Trọng** vì đã giúp em hiểu được cốt lõi của kiến thức lập trình nâng cao, hiểu quy trình và kỹ năng quản lý dự án nhằm qua đó nâng cao kến thức và xây dựng nền móng cơ bản trong việc hoàn thành game của em.
+* Thầy **Trần Trường Thủy** vì đã hướng dẫn em những kiến thức cơ bản về lập trình game bằng SDL2 đồng thời tận tình chỉ bảo chúng em những công cụ cần thiết cho việc xây dựng project game này
+* Mentor **Nguyễn Vũ Thanh Tùng** vì đã giúp em trong việc fix bug và hướng dẫn em fix một số code error trong game
