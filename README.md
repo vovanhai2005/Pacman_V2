@@ -3,7 +3,7 @@
 # Giới thiệu chung
 **Pacman Version 2.0** là trò chơi Pacman cổ điển  kết hợp cùng BombIT. Trong game, Pacman sẽ cố gắng tích càng nhiều điểm và ăn hết xu để qua màn mà không gặp phải bất kì con ma nào. Trong version này, Pacman đã được trang bị thêm vũ khí Bom Laser để tiêu diệt ma một cách dễ dàng hơn.
 
-Link demo video về game:
+Link demo video về game: https://drive.google.com/file/d/1D64OByGWAThwA2hY8PSAVriegCy5MjS1/view?usp=drive_link
 
 # 1. Cách cài đặt game
 ## Tải game và compile bằng code
